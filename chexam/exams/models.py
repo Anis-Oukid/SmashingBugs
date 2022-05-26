@@ -1,10 +1,7 @@
 from django.db import models
 from django.db.models import Model
 from django.apps import apps
-
-Teacher = apps.get_model(app_label='accounts', model_name='Teacher')
-Student = apps.get_model(app_label='accounts', model_name='Student')
-
+from accounts.models import Teacher,Student
 
 class Exam(Model):
     module_name = models.CharField(max_length=500)

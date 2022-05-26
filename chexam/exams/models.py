@@ -1,9 +1,10 @@
 from django.db import models
 from django.db.models import Model
 from django.apps import apps
+from accounts.models import Teacher, Student
 
-Teacher = apps.get_model(app_label='accounts', model_name='Teacher')
-Student = apps.get_model(app_label='accounts', model_name='Student')
+# Teacher = apps.get_model(app_label='accounts', model_name='Teacher')
+# Student = apps.get_model(app_label='accounts', model_name='Student')
 
 
 class Exam(Model):

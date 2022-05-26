@@ -1,0 +1,49 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}{% endblock %} Chexam</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Flow bite -->
+    <script defer src="https://unpkg.com/flowbite@1.4.2/dist/flowbite.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.2/dist/flowbite.min.css"/>
+
+    {% block stylesheets %}
+    {% endblock %}
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- jQuery -->
+<!--    <script src="{% static 'js/lib/jquery-3.6.0.min.js' %}"></script>-->
+
+    <!-- Scripts -->
+    {% block scripts %}
+
+    {% endblock %}
+    <!-- Fonts -->
+<!--    <link rel="preconnect" href="https://fonts.googleapis.com">-->
+<!--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
+<!--    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">-->
+    <!-- Fontawesome -->
+</head>
+
+<body>
+
+
+{% block navbar %}
+
+{% endblock navbar %}
+
+{% block content %}
+
+{% endblock %}
+
+</body>
+
+</html>

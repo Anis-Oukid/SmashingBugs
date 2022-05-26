@@ -14,10 +14,6 @@ class ReclamationAdmin(admin.ModelAdmin):
     list_display = ('result', 'approved', 'treated')
 
 
-#class ProblemAdmin(admin.ModelAdmin):
-#   list_display = '__all__'
-
-
 admin.site.register(Exam, ExamAdmin)
 admin.site.register(Result, ResultAdmin)
 admin.site.register(Reclamation, ReclamationAdmin)

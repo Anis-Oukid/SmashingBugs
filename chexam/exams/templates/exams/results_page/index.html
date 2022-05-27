@@ -1,11 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    Testing
-
-    <br>
     <h1 class="text-2xl text-red-500">my results :</h1>
     {% for result in results %}
-        {{ result }}
+        {% include 'exams/results_page/components/result.html' with result=result %}
     {% endfor %}
 {% endblock %}

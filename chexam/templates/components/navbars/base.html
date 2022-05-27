@@ -1,0 +1,11 @@
+<div class="border-2 border-red-500">
+    Welcome, {{ request.user.username }}
+    <br>
+    Semester 2,
+    {% if request.user.teacher %}
+        {{ request.user.teacher.module_name }}
+    {% elif request.user.student %}
+        {{ request.user.student.calc_average }}
+    {% endif %}
+
+</div>

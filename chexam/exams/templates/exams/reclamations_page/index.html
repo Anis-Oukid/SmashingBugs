@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="text-2xl text-red-500">reclamations :</h1>
+    {% for reclamation in reclamations %}
+        {% include 'exams/reclamations_page/components/reclamation.html' with reclamation=reclamation %}
+    {% endfor %}
+
+    <a href="#">Upload solution</a>
+    <a href="#">Make announcement</a>
+{% endblock %}

@@ -20,25 +20,34 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- jQuery -->
-{#<!--    <script src="{% static 'js/lib/jquery-3.6.0.min.js' %}"></script>-->#}
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
     <!-- Scripts -->
     {% block scripts %}
 
     {% endblock %}
     <!-- Fonts -->
-<!--    <link rel="preconnect" href="https://fonts.googleapis.com">-->
-<!--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
-<!--    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">-->
+    <!--    <link rel="preconnect" href="https://fonts.googleapis.com">-->
+    <!--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
+    <!--    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">-->
     <!-- Fontawesome -->
 </head>
 
 <body>
 
 
-{% block navbar %}
+<!-- START navbar -->
+{% if request.user.is_authenticated %}
+    {% include 'components/navbars/base.html' %}
+{% endif %}
+<!-- END navbar -->
 
-{% endblock navbar %}
+<!-- START sidebar -->
+{% if request.user.is_authenticated %}
+    {% include 'components/sidebars/base.html' %}
+{% endif %}
+<!-- END sidebar -->
 
 {% block content %}
 

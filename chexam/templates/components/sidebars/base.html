@@ -1,0 +1,22 @@
+<div class="border-2 border-green-500">
+    <ul>
+        <li>
+            image profile
+        </li>
+        <li>
+            <a href="{% url 'results_page' %}">results</a>
+        </li>
+        <li>
+            <a href="{% url 'settings' %}">settings</a>
+        </li>
+        <li>
+            <a href="#">notifications</a>
+        </li>
+        <li>
+            <form method="post" action="{% url 'account_logout' %}">
+                {% csrf_token %}
+                <button type="submit">Sign out</button>
+            </form>
+        </li>
+    </ul>
+</div>

@@ -12,7 +12,7 @@ class Classroom(models.Model):
 
 
 class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, db_constraint=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,db_constraint=False)
     classroom = models.ForeignKey(Classroom, on_delete=models.RESTRICT)
 
     def __str__(self):
@@ -20,6 +20,11 @@ class Student(models.Model):
 
 
 class Teacher(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE,db_constraint=False)
+
+
+class Administrator(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE,db_constraint=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, db_constraint=False)
 
     def __str__(self):

@@ -1,7 +1,8 @@
 from django.db import models
 from django.db.models import Model
 from django.apps import apps
-from accounts.models import Teacher,Student
+from accounts.models import Teacher, Student
+
 
 class Exam(Model):
     module_name = models.CharField(max_length=500)
@@ -9,13 +10,19 @@ class Exam(Model):
     date_passed = models.DateTimeField()
     date_created = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f'{self.module_name}'
+
 
 class Result(Model):
     exam = models.OneToOneField(Exam, on_delete=models.CASCADE)
-    student = models.OneToOneField(Student, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
     mark = models.FloatField()
     scan = models.FileField(upload_to='test')
     date_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.student} _ {self.exam}'
 
 
 class Reclamation(Model):

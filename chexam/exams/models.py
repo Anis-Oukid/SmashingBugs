@@ -14,7 +14,7 @@ class Result(Model):
     exam = models.OneToOneField(Exam, on_delete=models.CASCADE)
     student = models.OneToOneField(Student, on_delete=models.CASCADE)
     mark = models.FloatField()
-    scan = models.FileField()
+    scan = models.FileField(upload_to='test')
     date_created = models.DateTimeField(auto_now_add=True)
 
 
@@ -45,3 +45,4 @@ class Problem(Model):
         choices=PROBLEM_TYPE_CHOICES,
         default=counting,
     )
+    scan = models.FileField(upload_to='test')

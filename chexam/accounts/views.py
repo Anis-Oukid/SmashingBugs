@@ -5,8 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
 from .forms import UpdateProfileForm
-
-
+from django.contrib.auth import logout
+from django.http import HttpResponse, Http404
+from django.shortcuts import render, redirect
 @login_required
 def settings(request):
     user = request.user
@@ -49,3 +50,8 @@ def change_password(request):
             message = 'Your old password is wrong !'
 
     return HttpResponse(json.dumps(message), content_type='application/json')
+def logout_request(request):
+	logout(request)
+	return redirect("home")
+def homepage(request):
+    return redirect("account_login")

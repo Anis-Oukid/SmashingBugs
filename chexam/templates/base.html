@@ -4,15 +4,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <title>{% block title %}{% endblock %} Chexam</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <script src=
+    "https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js">
+      </script>
     <!-- Flow bite -->
     <script defer src="https://unpkg.com/flowbite@1.4.2/dist/flowbite.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.2/dist/flowbite.min.css"/>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     {% block stylesheets %}
     {% endblock %}
 
@@ -90,7 +93,7 @@
     <!-- Fontawesome -->
 </head>
 
-<body class="overflow-hidden">
+<body class="overflow-hidden" >
 
 <main class="flex items-center justify-center min-h-screen max-h-screen">
     <section class="glass flex  min-h-[80vh] w-[70%] rounded z-10 rounded-2xl">

@@ -5,14 +5,39 @@
 
 {{ result.mark }}
 
-<div>
+<div >
     <button class="text-red-500 border-red-500 border-2">Report</button>
+    {% if not result.verified %}
     <form action="{% url 'verify_result' result.id %}" method="post">
         {% csrf_token %}
         <button type="submit" class="text-red-500 border-red-500 border-2">Verify</button>
     </form>
+    {% endif %}
 </div>
-<div class="flex flex-row justify-between">
-    <embed src="{{ result.exam.solution.url }}" width="800px" height="2100px"/>
-    <embed src="{{ result.scan.url }}" width="800px" height="2100px"/>
+
+<button onclick="takeshot()">
+    Take Screenshot
+</button>
+<div class="flex flex-row justify-between" >
+   
+    <embed id="cpt" src="{{ result.exam.solution.url }}" width="800px" height="2100px" style="max-height: 550px;"/>
+    <embed id="cpt" src="{{ result.scan.url }}" width="800px" height="2100px" style="max-height: 550px;"/>
 </div>
+<div id="output"></div>
+<script>
+    function takeshot() {
+            let div =
+                document.getElementById('cpt');
+  
+            // Use the html2canvas
+            // function to take a screenshot
+            // and append it
+            // to the output div
+            html2canvas(div).then(
+                function (canvas) {
+                    document
+                    .getElementById('output')
+                    .appendChild(canvas);
+                })
+        }
+    </script>

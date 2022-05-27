@@ -1,18 +1,35 @@
-{% include 'exams/result_details/components/student_view/report_form.html' %}
 
 <br>
 <h1 class="text-2xl text-red-500">result of {{ result.exam.module_name }} exam</h1>
 
 {{ result.mark }}
 
-<div>
-    <button class="text-red-500 border-red-500 border-2">Report</button>
-    <form action="{% url 'verify_result' result.id %}" method="post">
-        {% csrf_token %}
-        <button type="submit" class="text-red-500 border-red-500 border-2">Verify</button>
-    </form>
-</div>
-<div class="flex flex-row justify-between">
-    <embed src="{{ result.exam.solution.url }}" width="800px" height="2100px"/>
-    <embed src="{{ result.scan.url }}" width="800px" height="2100px"/>
-</div>
+{% include 'exams/result_details/components/student_view/pdfs.html' %}
+{% include 'exams/result_details/components/student_view/report_form.html' %}
+
+
+<button onclick="takeshot()">
+    Take Screenshot
+</button>
+
+
+
+
+<div id="output"></div>
+<script>
+    function takeshot() {
+            let div =
+                document.getElementById('cpt');
+  
+            // Use the html2canvas
+            // function to take a screenshot
+            // and append it
+            // to the output div
+            html2canvas(div).then(
+                function (canvas) {
+                    document
+                    .getElementById('output')
+                    .appendChild(canvas);
+                })
+        }
+    </script>

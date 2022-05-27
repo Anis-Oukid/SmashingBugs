@@ -1,0 +1,144 @@
+{% load static %}
+{% load account socialaccount %}
+{% get_providers as socialaccount_providers %}
+
+<html lang="en">
+<head>
+    <title>Chexam</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+          integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+    <script defer src="./app.js"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+</head>
+
+<style>
+    main {
+        background: linear-gradient(76.17deg, #0089D8 57.21%, #3C4986 72.63%, #423E7D 77.28%, #522066 90.43%);
+    }
+
+    .glass {
+        background: linear-gradient(117.23deg, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0.12) 100%);
+        backdrop-filter: blur(87.6994px);
+    }
+
+    .circle1 {
+
+        background: linear-gradient(180deg, #030452 0%, #5B2877 50%);
+        filter: blur(250px);
+    }
+
+    .circle2 {
+        background: linear-gradient(180deg, #030452 0%, #5B2877 50%);
+        filter: blur(210px);
+    }
+
+    aside {
+        background: linear-gradient(117.23deg, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0.12) 100%);
+        backdrop-filter: blur(87.6994px);
+    }
+
+    .module {
+        background: linear-gradient(135.17deg, rgba(255, 255, 255, 0.66) 6.15%, rgba(255, 255, 255, 0.396) 95.16%);
+        box-shadow: 4.38497px 4.38497px 9.86618px rgba(0, 0, 0, 0.25);
+    }
+
+    .user-profile:hover + aside {
+        display: none;
+    }
+
+    .card {
+
+        background: linear-gradient(117.23deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.20) 100%);
+        backdrop-filter: blur(87.6994px);
+
+    }
+</style>
+
+<body class="overflow-hidden" style="font-family: 'Open Sans', sans-serif;">
+<main class="min-h-screen flex flex-col items-center space-y-14">
+    <h1 class="text-center text-slate-900 text-4xl font-bold pt-10">CHEXAM</h1>
+    <section class="relative glass flex flex-col   w-[30%]  z-10  px-5 py-10  rounded-2xl space-y-8">
+        <h1 class="text-center text-blue-900 font-bold text-3xl ">Log In</h1>
+        <form method="post" class="space-y-8 flex flex-col justify-center items-center w-full">
+            {% csrf_token %}
+
+            {# non field errors #}
+            {% if form.non_field_errors %}
+                <div class="text-red-500 mb-4">
+                    {% for err in form.non_field_errors %}
+                        <p class="form-error">{{ err }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {# login #}
+            <div class="flex bg-white px-4 py-3.5 rounded w-4/5  shadow-xl items-center">
+                <label for="email"><i class="fa-solid fa-envelope pr-3"></i></label>
+                <div>
+                    {{ form.login }}
+                </div>
+                <div class="text-red-500">
+                    {{ form.login.errors|escape }}
+                </div>
+            </div>
+
+            <div class="flex bg-white px-4 py-3.5 rounded w-4/5  items-center shadow-xl">
+                <label for="password"><i class="fa-solid fa-key pr-3"></i></label>
+                <div>
+                    {{ form.password }}
+                </div>
+                <div class="text-red-500">
+                    {{ form.password.errors|escape }}
+                </div>
+            </div>
+
+            <div class="mb-8 hidden">
+                <div class="mb-3">
+                    <div class="flex items-start mb-6">
+                        {{ form.remember }}
+                        <label for="{{ form.remember.id_for_label }}"
+                               class="ml-2 cursor-pointer -mt-0.5 text-sm font-medium text-gray-900     ">
+                            {{ form.remember.label }}
+                        </label>
+                    </div>
+                </div>
+                <div class="text-red-500">
+                    {{ form.remember.errors|escape }}
+                </div>
+            </div>
+
+            {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+            {% endif %}
+
+            <button type="submit"
+                    class="bg-slate-700 text-white py-2 px-5   rounded-md text-lg w-fit  font-semibold transition-all hover:bg-gray-900">
+                Sign In
+            </button>
+        </form>
+
+        <div class="flex flex-row w-full justify-center items-center px-9">
+            <form class="m-0" method="post" action="{% provider_login_url 'google' %}">
+                {% csrf_token %}
+                <button class=" p-2.5  bg-slate-800 rounded-2xl shadow-xl hover:bg-slate-600 transition-all"><img
+                        src="{% static 'imgs/Google__G__Logo (1).svg' %}" class="w-6" alt=""></button>
+            </form>
+        </div>
+    </section>
+</main>
+
+<!-- <div class="circle1  h-[10rem] w-[10rem] absolute rounded-[50%] top-[0%] right-[0%]"></div> -->
+<div class="circle2  h-[50rem] w-[50rem] absolute rounded-[50%] bottom-[-35%] left-[-10%]"></div>
+</body>
+
+</html>

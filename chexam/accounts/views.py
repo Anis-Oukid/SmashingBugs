@@ -5,6 +5,18 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
 from .forms import UpdateProfileForm
+from django.contrib.auth import logout
+from django.http import HttpResponse, Http404
+from django.shortcuts import render, redirect
+from .models import Teacher, Student
+
+
+def is_teacher(user):
+    return Teacher.objects.filter(user=user).exists()
+
+
+def is_student(user):
+    return Student.objects.filter(user=user).exists()
 
 
 @login_required
@@ -14,16 +26,18 @@ def settings(request):
     if request.method == 'POST':
         form = UpdateProfileForm(request.POST, instance=user, user=user)
         if form.is_valid():
-            # username = form.cleaned_data['username']
             email = form.cleaned_data['email']
 
-            # user.username = username
             user.email = email
             user.save()
     else:
         form = UpdateProfileForm(instance=request.user, user=user)
 
-    context = {'form': form}
+    context = {
+        'form': form,
+        'role': 'Student' if is_student(user) else ('Teacher' if is_teacher(user) else 'Admin'),
+        'header_title': 'Settings'
+    }
 
     return render(request, "accounts/settings/index.html", context=context)
 
@@ -49,3 +63,18 @@ def change_password(request):
             message = 'Your old password is wrong !'
 
     return HttpResponse(json.dumps(message), content_type='application/json')
+
+
+@login_required
+def edit_password(request):
+    return render(request, "accounts/edit_password/index.html", context={'header_title': 'Change Password'})
+
+
+def logout_request(request):
+    logout(request)
+    return redirect("home")
+
+
+def homepage(request):
+    return redirect("account_login")
+

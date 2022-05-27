@@ -1,13 +1,14 @@
 {% if not result.verified %}
 
-    <div id="problems">
+    <div id="problems" class="list space-y-5 mt-5 flex flex-col custom-scroll">
         {% for problem in problems %}
-            <div class="bg-blue-100 border-b-2 border-red-500">{{ problem }} - {{ problem.approved }}</div>
+            {% include 'exams/result_details/components/student_view/problem.html' with problem=problem %}
         {% endfor %}
     </div>
 
     {% load static %}
     <script type="module" src="{% static 'js/exams/result_detail.js' %}"></script>
+    {% if result.reclamation %}
     <div class="border-2 border-yellow-500">
         <form id="add-problem-form" method="post" action="{% url 'add_problem' result.reclamation.id %}">
             {% csrf_token %}
@@ -27,7 +28,7 @@
             </div>
         </form>
     </div>
-
+    {% endif %}
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js"></script>
@@ -59,63 +60,63 @@
 {% else %}
     Your result is verified bruha, get outta here
 {% endif %}
-{#<script>#}
-{#    // vars#}
-{#    let result = document.querySelector(".result"),#}
-{#        img_result = document.querySelector(".img-result"),#}
-{#        img_w = document.querySelector(".img-w"),#}
-{#        img_h = document.querySelector(".img-h"),#}
-{#        options = document.querySelector(".options"),#}
-{#        save = document.querySelector(".save"),#}
-{#        cropped = document.querySelector(".cropped"),#}
-{#        dwn = document.querySelector(".download"),#}
-{#        upload = document.querySelector("#file-input"),#}
-{#        cropper = "";#}
-{##}
-{#    // on change show image with crop options#}
-{#    upload.addEventListener("change", (e) => {#}
-{#        if (e.target.files.length) {#}
-{##}
-{#            // start file reader#}
-{#            const reader = new FileReader();#}
-{#            reader.onload = (e) => {#}
-{#                if (e.target.result) {#}
-{#                    // create new image#}
-{#                    let img = document.createElement("img");#}
-{#                    img.id = "image";#}
-{#                    img.src = e.target.result;#}
-{#                    // clean result before#}
-{#                    result.innerHTML = "";#}
-{#                    // append new image#}
-{#                    result.appendChild(img);#}
-{#                    // show save btn and options#}
-{#                    save.classList.remove("hide");#}
-{#                    options.classList.remove("hide");#}
-{#                    // init cropper#}
-{#                    cropper = new Cropper(img);#}
-{#                }#}
-{#            };#}
-{#            reader.readAsDataURL(e.target.files[0]);#}
-{#        }#}
-{#    });#}
-{##}
-{#    // save on click#}
-{#    save.addEventListener("click", (e) => {#}
-{#        e.preventDefault();#}
-{#        // get result to data uri#}
-{#        let imgSrc = cropper#}
-{#            .getCroppedCanvas({#}
-{#                width: img_w.value, // input value#}
-{#            })#}
-{#            .toDataURL();#}
-{#        // remove hide class of img#}
-{#        cropped.classList.remove("hide");#}
-{#        img_result.classList.remove("hide");#}
-{#        // show image cropped#}
-{##}
-{#        cropped.src = imgSrc;#}
-{#        dwn.classList.remove("hide");#}
-{#        dwn.download = "imagename.png";#}
-{#        dwn.setAttribute("href", imgSrc);#}
-{#    });#}
-{#</script>#}
+<script>
+    // vars
+    let result = document.querySelector(".result"),
+        img_result = document.querySelector(".img-result"),
+        img_w = document.querySelector(".img-w"),
+        img_h = document.querySelector(".img-h"),
+        options = document.querySelector(".options"),
+        save = document.querySelector(".save"),
+        cropped = document.querySelector(".cropped"),
+        dwn = document.querySelector(".download"),
+        upload = document.querySelector("#file-input"),
+        cropper = "";
+
+    // on change show image with crop options
+    upload.addEventListener("change", (e) => {
+        if (e.target.files.length) {
+
+            // start file reader
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                if (e.target.result) {
+                    // create new image
+                    let img = document.createElement("img");
+                    img.id = "image";
+                    img.src = e.target.result;
+                    // clean result before
+                    result.innerHTML = "";
+                    // append new image
+                    result.appendChild(img);
+                    // show save btn and options
+                    save.classList.remove("hide");
+                    options.classList.remove("hide");
+                    // init cropper
+                    cropper = new Cropper(img);
+                }
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        }
+    });
+
+    // save on click
+    save.addEventListener("click", (e) => {
+        e.preventDefault();
+        // get result to data uri
+        let imgSrc = cropper
+            .getCroppedCanvas({
+                width: img_w.value, // input value
+            })
+            .toDataURL();
+        // remove hide class of img
+        cropped.classList.remove("hide");
+        img_result.classList.remove("hide");
+        // show image cropped
+
+        cropped.src = imgSrc;
+        dwn.classList.remove("hide");
+        dwn.download = "imagename.png";
+        dwn.setAttribute("href", imgSrc);
+    });
+</script>

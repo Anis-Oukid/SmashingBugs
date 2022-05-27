@@ -4,15 +4,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <title>{% block title %}{% endblock %} Chexam</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <script src=
+                    "https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js">
+    </script>
     <!-- Flow bite -->
     <script defer src="https://unpkg.com/flowbite@1.4.2/dist/flowbite.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.2/dist/flowbite.min.css"/>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+            integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     {% block stylesheets %}
     {% endblock %}
 
@@ -51,6 +56,22 @@
             display: none;
         }
 
+        .custom-scroll::-webkit-scrollbar {
+            width: 15px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-track {
+            background-color: #e4e4e4;
+            border-radius: 100px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb {
+            border-radius: 100px;
+            border: 6px solid rgba(0, 0, 0, 0.18);
+            border-left: 0;
+            border-right: 0;
+            background-color: #8070d4;
+        }
     </style>
 
     <!-- Tailwind CSS -->
@@ -61,39 +82,26 @@
             integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
-    {#    <script>#}
-    {#        let csrfToken = Cookies.get('csrftoken');#}
-    {##}
-    {#        function csrfSafeMethod(method) {#}
-    {#            // these HTTP methods do not require CSRF protection#}
-    {#            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));#}
-    {#        }#}
-    {##}
-    {#        $.ajaxSetup({#}
-    {#            beforeSend: function (xhr, settings) {#}
-    {#                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {#}
-    {#                    xhr.setRequestHeader("X-CSRFToken", csrfToken);#}
-    {#                }#}
-    {#            }#}
-    {#        });#}
-    {#    </script>#}
-
 
     <!-- Scripts -->
     {% block scripts %}
 
     {% endblock %}
+    <script defer src="{% static 'js/app.js' %}"></script>
     <!-- Fonts -->
     <!--    <link rel="preconnect" href="https://fonts.googleapis.com">-->
     <!--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
     <!--    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">-->
     <!-- Fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+          integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
 
 <body class="overflow-hidden">
 
-<main class="flex items-center justify-center min-h-screen max-h-screen">
-    <section class="glass flex  min-h-[80vh] w-[70%] rounded z-10 rounded-2xl">
+<main class="flex items-center justify-center min-h-screen">
+    <section class="glass flex h-[80vh]   w-[70%]  z-10 rounded-2xl">
         <div class="dashboard relative w-full">
             <!-- START sidebar -->
             {% if request.user.is_authenticated %}
@@ -101,23 +109,23 @@
             {% endif %}
             <!-- END sidebar -->
 
-            <div class="content max-h-screen overflow-y-auto pl-[12%]">
+            <div class="content   pl-[12%] pr-12">
                 <!-- START navbar -->
                 {% if request.user.is_authenticated %}
                     {% include 'components/navbars/base.html' %}
                 {% endif %}
                 <!-- END navbar -->
-                {% block content %}
+                <div class="mt-5">
+                    {% block content %}
 
-                {% endblock %}
+                    {% endblock %}
+                </div>
             </div>
         </div>
     </section>
 </main>
 
-<!-- <div class="circle1  h-[10rem] w-[10rem] absolute rounded-[50%] top-[0%] right-[0%]"></div> -->
 <div class="circle2  h-[50rem] w-[50rem] absolute rounded-[50%] bottom-[-35%] left-[-10%]"></div>
-
 </body>
 
 </html>

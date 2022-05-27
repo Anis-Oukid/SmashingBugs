@@ -1,0 +1,31 @@
+<div class="flex justify-evenly items-center reports space-y-2 rounded-lg shadow-lg report-modal card  w-5/6 py-4">
+    <div class="cropped-img-reclamation h-20 w-1/2 rounded-md bg-white ring-1">
+        {{ problem }}
+    </div>
+
+    {% if not result.reclamation.treated %}
+        <span class=" space-x-4 my-auto text-gray-600 font-semibold text-center  px-4 w-32 hover:text-white hover:bg-gray-600 transition-all py-3 rounded-xl flex justify-center items-center bg-white">
+            <i class="fa-solid fa-spinner text-lg"></i>
+            <span>
+                Pending
+            </span>
+        </span>
+    {% endif %}
+
+    {% if result.reclamation.treated and not problem.approved %}
+        <span class=" space-x-4 my-auto text-red-600 font-semibold text-center  px-4 w-32 hover:text-white hover:bg-red-600 transition-all py-3 rounded-xl flex justify-center items-center bg-white">
+            <i class="fa-solid fa-remove  text-lg"></i>
+            <span>
+                Refused
+            </span>
+        </span>
+    {% endif %}
+    {% if result.reclamation.treated and problem.approved %}
+        <span class=" space-x-3 text-green-600 font-semibold text-center w-32 px-4 hover:text-white hover:bg-green-600 transition-all py-3 rounded-xl flex justify-center items-center bg-white">
+            <i class="fa-solid fa-check text-lg"></i>
+            <span>
+                Validated
+            </span>
+        </span>
+    {% endif %}
+</div>

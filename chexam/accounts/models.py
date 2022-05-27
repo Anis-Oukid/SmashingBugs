@@ -14,7 +14,8 @@ class Classroom(models.Model):
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, db_constraint=False)
     classroom = models.ForeignKey(Classroom, on_delete=models.RESTRICT, null=True, blank=True)
-    
+    student_id = models.IntegerField(blank=True, null=True)
+
     def __str__(self):
         return self.user.username
 

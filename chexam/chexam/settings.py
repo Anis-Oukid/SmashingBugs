@@ -47,6 +47,18 @@ INSTALLED_APPS = [
     'accounts'
 ]
 
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
 SOCIALACCOUNT_QUERY_EMAIL = True
 ACCOUNT_UNIQUE_EMAIL = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -65,17 +77,6 @@ ACCOUNT_LOGOUT_REDIRECT_URL = '/auth/login/'
 # redirects to profile page if not configured.
 LOGIN_REDIRECT_URL = '/exams/'
 
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        }
-    }
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -106,6 +107,10 @@ TEMPLATES = [
         },
     },
 ]
+
+ACCOUNT_FORMS = {
+    'login': 'accounts.forms.CustomLoginForm',
+}
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
@@ -176,3 +181,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 X_FRAME_OPTIONS = 'ALLOWALL'
 
 XS_SHARING_ALLOWED_METHODS = ['POST', 'GET', 'OPTIONS', 'PUT', 'DELETE']
+
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'visual.sfsd@gmail.com'
+EMAIL_HOST_PASSWORD = "xASxmm1#sXSAd!!@XZx2kjh1$la"
+EMAIL_PORT = 587

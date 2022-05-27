@@ -1,0 +1,14 @@
+{% load static %}
+
+<div class="border-2 border-gray-500 block">
+    <ul>
+        <li>
+            <img width="30" src="{% static 'imgs/accounts/user.png' %}" alt="Avatar">
+        </li>
+        <li>{{ reclamation.result.student.get_full_name }}</li>
+        <li>{{ reclamation.result.student.classroom }}</li>
+        <li>{{ reclamation.result.date_created|date:"Y-m-d" }}</li>
+    </ul>
+    <a href="#">Consult</a>
+    {# set the url later to view reclamation #}
+</div>

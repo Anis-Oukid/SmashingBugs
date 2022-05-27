@@ -31,6 +31,9 @@ class Reclamation(Model):
     treated = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.result
+
 
 # problem types
 counting = 'counting'

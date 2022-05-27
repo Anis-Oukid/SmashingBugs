@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block scripts %}
+    <script type="module" src="{% static 'js/accounts/settings/changePassword.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    settings of {{ user }}
+
+    <form method="POST" action="">
+        {% csrf_token %}
+
+{#        <div class="mb-8">#}
+{#            <div class="mb-3">#}
+{#                <label for="{{ form.username.id_for_label }}"#}
+{#                       class="block mb-2 pl-4 text-gray-500 text-left text-md">{{ form.username.label }}</label>#}
+{#                {{ form.username }}#}
+{#            </div>#}
+{#            <div class="text-red-500">#}
+{#                {{ form.username.errors|escape }}#}
+{#            </div>#}
+{#        </div>#}
+        <div class="flex flex-row space-x-5  mb-5">
+            <div>
+                <div class="mb-3">
+                    <label for="{{ form.first_name.id_for_label }}"
+                           class="block mb-2 pl-4 text-left text-gray-500 text-md">{{ form.first_name.label }}</label>
+                    {{ form.first_name }}
+                </div>
+                <div class="text-red-500">
+                    {{ form.first_name.errors|escape }}
+                </div>
+            </div>
+            <div>
+                <div class="mb-3">
+                    <label for="{{ form.last_name.id_for_label }}"
+                           class="block mb-2 pl-4 text-left text-gray-500 text-md">{{ form.last_name.label }}</label>
+                    {{ form.last_name }}
+                </div>
+                <div class="text-red-500">
+                    {{ form.last_name.errors|escape }}
+                </div>
+            </div>
+        </div>
+        <div class="mb-8">
+            <div class="mb-3">
+                <label for="{{ form.email.id_for_label }}"
+                       class="pl-4 text-gray-500 text-left block mb-2 text-md">{{ form.email.label }}</label>
+                {{ form.email }}
+            </div>
+            <div class="text-red-500">
+                {{ form.email.errors|escape }}
+            </div>
+        </div>
+        <button type="submit"
+                class="rounded-full bg-[#879EF1] hover:bg-[#BA68C8] font-medium transition-all text-white text-lg py-3 px-8 cursor-pointer">
+            Update
+        </button>
+    </form>
+
+
+    <!-- upodate password -->
+    <form method="POST" action="{% url 'change_password' %}" id="change-password-form">
+            {% csrf_token %}
+            <div class="py-10 px-10 w-[450px]">
+                <h1 class="font-bold text-3xl mb-8">Change password</h1>
+                <!-- Old Password -->
+                <input name="old_password" type="password" required placeholder="Old Password"
+                       class="focus:outline-blue-500 block m-auto mb-8 py-4 px-5 w-full rounded-full custom-shadow">
+               <!-- Old Password -->
+                <input name="new_password" type="password" required placeholder="New Password"
+                       class="focus:outline-blue-500 block m-auto mb-8 py-4 px-5 w-full rounded-full custom-shadow">
+                <!-- Old Password -->
+                <input name="re_new_password" type="password" required placeholder="Re-type New Password"
+                       class="focus:outline-blue-500 block m-auto mb-8 py-4 px-5 w-full rounded-full custom-shadow">
+
+                <button type="submit"
+                        class="rounded-full bg-[#879EF1] hover:bg-[#BA68C8] font-medium transition-all text-white text-xl py-4 px-10 cursor-pointer">
+                    Update
+                </button>
+                <div id="form-response" class="text-dark mt-4">
+
+                </div>
+            </div>
+        </form>
+{% endblock %}

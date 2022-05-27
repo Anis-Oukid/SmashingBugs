@@ -5,4 +5,6 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('exams/', include('exams.urls')),
+    path('account/', include('accounts.urls')),
+    path('auth/', include('allauth.urls')),
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

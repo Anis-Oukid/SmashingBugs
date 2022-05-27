@@ -1,28 +1,20 @@
-{% include 'exams/result_details/components/student_view/report_form.html' %}
 
 <br>
 <h1 class="text-2xl text-red-500">result of {{ result.exam.module_name }} exam</h1>
 
 {{ result.mark }}
 
-<div >
-    <button class="text-red-500 border-red-500 border-2">Report</button>
-    {% if not result.verified %}
-    <form action="{% url 'verify_result' result.id %}" method="post">
-        {% csrf_token %}
-        <button type="submit" class="text-red-500 border-red-500 border-2">Verify</button>
-    </form>
-    {% endif %}
-</div>
+{% include 'exams/result_details/components/student_view/pdfs.html' %}
+{% include 'exams/result_details/components/student_view/report_form.html' %}
+
 
 <button onclick="takeshot()">
     Take Screenshot
 </button>
-<div class="flex flex-row justify-between" >
-   
-    <embed id="cpt" src="{{ result.exam.solution.url }}" width="800px" height="2100px" style="max-height: 550px;"/>
-    <embed id="cpt" src="{{ result.scan.url }}" width="800px" height="2100px" style="max-height: 550px;"/>
-</div>
+
+
+
+
 <div id="output"></div>
 <script>
     function takeshot() {

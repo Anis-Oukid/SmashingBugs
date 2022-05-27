@@ -1,0 +1,121 @@
+{% if not result.verified %}
+
+    <div id="problems">
+        {% for problem in problems %}
+            <div class="bg-blue-100 border-b-2 border-red-500">{{ problem }} - {{ problem.approved }}</div>
+        {% endfor %}
+    </div>
+
+    {% load static %}
+    <script type="module" src="{% static 'js/exams/result_detail.js' %}"></script>
+    <div class="border-2 border-yellow-500">
+        <form id="add-problem-form" method="post" action="{% url 'add_problem' result.reclamation.id %}">
+            {% csrf_token %}
+            <label>
+                <textarea name="comment">Mamma mia</textarea>
+            </label>
+            <label>
+                <select name="problem_type">
+                    <option value="counting" selected>Counting</option>
+                    <option value="miss_judging">Miss Judging</option>
+                    <option value="forgetting">Forgetting</option>
+                </select>
+            </label>
+            <button type="submit">Add Problem</button>
+            <div id="form-response" class="text-dark mt-4">
+
+            </div>
+        </form>
+    </div>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js"></script>
+    <div class="page border-4 border-blue-400">
+        <div class="form-group container">
+            <label for="file">Upload Image File:</label>
+            <input class="form-control box" accept="image/*" type="file" required id="file-input"/>
+        </div>
+        <div class="box-2">
+            <div class="result"></div>
+        </div>
+        <!--rightbox-->
+        <div class="box-2 img-result">
+            <!-- result of crop -->
+            <img class="cropped" src="" alt=""/>
+        </div>
+        <!-- input file -->
+        <div class="box">
+            <div class="options hide">
+                <label> Width</label>
+                <input type="number" class="img-w" value="300" min="100" max="1200"/>
+            </div>
+            <!-- save btn -->
+            <button class="btn save hide">Save</button>
+            <!-- download btn -->
+            <a href="" class="btn download hide">Download</a>
+        </div>
+    </div>
+{% else %}
+    Your result is verified bruha, get outta here
+{% endif %}
+{#<script>#}
+{#    // vars#}
+{#    let result = document.querySelector(".result"),#}
+{#        img_result = document.querySelector(".img-result"),#}
+{#        img_w = document.querySelector(".img-w"),#}
+{#        img_h = document.querySelector(".img-h"),#}
+{#        options = document.querySelector(".options"),#}
+{#        save = document.querySelector(".save"),#}
+{#        cropped = document.querySelector(".cropped"),#}
+{#        dwn = document.querySelector(".download"),#}
+{#        upload = document.querySelector("#file-input"),#}
+{#        cropper = "";#}
+{##}
+{#    // on change show image with crop options#}
+{#    upload.addEventListener("change", (e) => {#}
+{#        if (e.target.files.length) {#}
+{##}
+{#            // start file reader#}
+{#            const reader = new FileReader();#}
+{#            reader.onload = (e) => {#}
+{#                if (e.target.result) {#}
+{#                    // create new image#}
+{#                    let img = document.createElement("img");#}
+{#                    img.id = "image";#}
+{#                    img.src = e.target.result;#}
+{#                    // clean result before#}
+{#                    result.innerHTML = "";#}
+{#                    // append new image#}
+{#                    result.appendChild(img);#}
+{#                    // show save btn and options#}
+{#                    save.classList.remove("hide");#}
+{#                    options.classList.remove("hide");#}
+{#                    // init cropper#}
+{#                    cropper = new Cropper(img);#}
+{#                }#}
+{#            };#}
+{#            reader.readAsDataURL(e.target.files[0]);#}
+{#        }#}
+{#    });#}
+{##}
+{#    // save on click#}
+{#    save.addEventListener("click", (e) => {#}
+{#        e.preventDefault();#}
+{#        // get result to data uri#}
+{#        let imgSrc = cropper#}
+{#            .getCroppedCanvas({#}
+{#                width: img_w.value, // input value#}
+{#            })#}
+{#            .toDataURL();#}
+{#        // remove hide class of img#}
+{#        cropped.classList.remove("hide");#}
+{#        img_result.classList.remove("hide");#}
+{#        // show image cropped#}
+{##}
+{#        cropped.src = imgSrc;#}
+{#        dwn.classList.remove("hide");#}
+{#        dwn.download = "imagename.png";#}
+{#        dwn.setAttribute("href", imgSrc);#}
+{#    });#}
+{#</script>#}

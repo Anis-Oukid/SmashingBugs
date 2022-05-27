@@ -1,15 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    Testing
-
-    <br>
-    <h1 class="text-2xl text-red-500">result of {{result.exam.module_name}} exam</h1>
-    
-        {{ result.mark }}
-     <!--   <img src="{{ result.scan.url}}"> -->
-        <embed src="{{result.exam.solution.url}}" width="800px" height="2100px" />
-       
-   
-
+    {% if is_teacher %}
+        {% include 'exams/result_details/components/teacher_view.html' %}
+    {% else %}
+        {% include 'exams/result_details/components/student_view/index.html' %}
+    {% endif %}
 {% endblock %}

@@ -16,12 +16,68 @@
     {% block stylesheets %}
     {% endblock %}
 
+    <style>
+        main {
+            background: linear-gradient(76.17deg, #0089D8 57.21%, #3C4986 72.63%, #423E7D 77.28%, #522066 90.43%);
+        }
+
+        .glass {
+            background: linear-gradient(117.23deg, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0.12) 100%);
+            backdrop-filter: blur(87.6994px);
+        }
+
+        .circle1 {
+
+            background: linear-gradient(180deg, #030452 0%, #5B2877 50%);
+            filter: blur(250px);
+        }
+
+        .circle2 {
+            background: linear-gradient(180deg, #030452 0%, #5B2877 50%);
+            filter: blur(210px);
+        }
+
+        aside {
+            background: linear-gradient(117.23deg, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0.12) 100%);
+            backdrop-filter: blur(87.6994px);
+        }
+
+        .module {
+            background: linear-gradient(135.17deg, rgba(255, 255, 255, 0.66) 6.15%, rgba(255, 255, 255, 0.396) 95.16%);
+            box-shadow: 4.38497px 4.38497px 9.86618px rgba(0, 0, 0, 0.25);
+        }
+
+        .user-profile:hover + aside {
+            display: none;
+        }
+
+    </style>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.js"
             integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+    {#    <script>#}
+    {#        let csrfToken = Cookies.get('csrftoken');#}
+    {##}
+    {#        function csrfSafeMethod(method) {#}
+    {#            // these HTTP methods do not require CSRF protection#}
+    {#            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));#}
+    {#        }#}
+    {##}
+    {#        $.ajaxSetup({#}
+    {#            beforeSend: function (xhr, settings) {#}
+    {#                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {#}
+    {#                    xhr.setRequestHeader("X-CSRFToken", csrfToken);#}
+    {#                }#}
+    {#            }#}
+    {#        });#}
+    {#    </script>#}
+
 
     <!-- Scripts -->
     {% block scripts %}
@@ -34,24 +90,33 @@
     <!-- Fontawesome -->
 </head>
 
-<body>
+<body class="overflow-hidden">
 
+<main class="flex items-center justify-center min-h-screen max-h-screen">
+    <section class="glass flex  min-h-[80vh] w-[70%] rounded z-10 rounded-2xl">
+        <div class="dashboard relative w-full">
+            <!-- START sidebar -->
+            {% if request.user.is_authenticated %}
+                {% include 'components/sidebars/base.html' %}
+            {% endif %}
+            <!-- END sidebar -->
 
-<!-- START navbar -->
-{% if request.user.is_authenticated %}
-    {% include 'components/navbars/base.html' %}
-{% endif %}
-<!-- END navbar -->
+            <div class="content max-h-screen overflow-y-auto pl-[12%]">
+                <!-- START navbar -->
+                {% if request.user.is_authenticated %}
+                    {% include 'components/navbars/base.html' %}
+                {% endif %}
+                <!-- END navbar -->
+                {% block content %}
 
-<!-- START sidebar -->
-{% if request.user.is_authenticated %}
-    {% include 'components/sidebars/base.html' %}
-{% endif %}
-<!-- END sidebar -->
+                {% endblock %}
+            </div>
+        </div>
+    </section>
+</main>
 
-{% block content %}
-
-{% endblock %}
+<!-- <div class="circle1  h-[10rem] w-[10rem] absolute rounded-[50%] top-[0%] right-[0%]"></div> -->
+<div class="circle2  h-[50rem] w-[50rem] absolute rounded-[50%] bottom-[-35%] left-[-10%]"></div>
 
 </body>
 

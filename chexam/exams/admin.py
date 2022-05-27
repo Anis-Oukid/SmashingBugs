@@ -11,7 +11,7 @@ class ResultAdmin(admin.ModelAdmin):
 
 
 class ReclamationAdmin(admin.ModelAdmin):
-    list_display = ('result', 'approved', 'treated')
+    list_display = ('result', 'treated')
 
 
 admin.site.register(Exam, ExamAdmin)

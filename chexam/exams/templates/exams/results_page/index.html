@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1 class="text-2xl text-red-500">my results :</h1>
-    {% for result in results %}
-        {% include 'exams/results_page/components/result.html' with result=result %}
-    {% endfor %}
+{#    <h1 class="text-2xl text-red-500">my results :</h1>#}
+     <div class="modules-list mt-20  flex flex-wrap ">
+        {% for result in results %}
+            {% include 'exams/results_page/components/result.html' with result=result %}
+        {% endfor %}
+     </div>
+
 {% endblock %}

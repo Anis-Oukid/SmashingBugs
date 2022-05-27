@@ -9,16 +9,18 @@ class Exam(Model):
     teacher = models.OneToOneField(Teacher, on_delete=models.CASCADE)
     date_passed = models.DateTimeField()
     date_created = models.DateTimeField(auto_now_add=True)
-    solution = models.FileField(upload_to='Solutions',default=None)
+    solution = models.FileField(upload_to='Solutions', default=None)
+
     def __str__(self):
         return f'{self.module_name}'
 
 
 class Result(Model):
-    exam = models.OneToOneField(Exam, on_delete=models.CASCADE)
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     mark = models.FloatField()
-    scan = models.FileField(upload_to='test',default=None)
+    scan = models.FileField(upload_to='test', default=None)
+    verified = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -27,12 +29,11 @@ class Result(Model):
 
 class Reclamation(Model):
     result = models.OneToOneField(Result, on_delete=models.CASCADE)
-    approved = models.BooleanField(default=False)
     treated = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.result
+        return f'{self.result}'
 
 
 # problem types
@@ -50,9 +51,13 @@ PROBLEM_TYPE_CHOICES = [
 class Problem(Model):
     reclamation = models.ForeignKey(Reclamation, on_delete=models.CASCADE)
     comment = models.CharField(max_length=1500)
+    approved = models.BooleanField(default=False)
     problem_type = models.CharField(
         max_length=30,
         choices=PROBLEM_TYPE_CHOICES,
         default=counting,
     )
-    scan = models.FileField(upload_to='test',default=None)
+    scan = models.FileField(upload_to='test', default=None, null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.reclamation} - {self.comment[:10]}'

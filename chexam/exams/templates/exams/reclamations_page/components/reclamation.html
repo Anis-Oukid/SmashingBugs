@@ -9,6 +9,5 @@
         <li>{{ reclamation.result.student.classroom }}</li>
         <li>{{ reclamation.result.date_created|date:"Y-m-d" }}</li>
     </ul>
-    <a href="#">Consult</a>
-    {# set the url later to view reclamation #}
+    <a href="{% url 'result_details' reclamation.result.id %}">Consult</a>
 </div>

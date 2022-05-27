@@ -1,22 +1,51 @@
-<div class="border-2 border-green-500">
-    <ul>
-        <li>
-            image profile
-        </li>
-        <li>
-            <a href="{% url 'results_page' %}">results</a>
-        </li>
-        <li>
-            <a href="{% url 'settings' %}">settings</a>
-        </li>
-        <li>
-            <a href="#">notifications</a>
-        </li>
-        <li>
-            <form method="post" action="{% url 'account_logout' %}">
-                {% csrf_token %}
-                <button type="submit">Sign out</button>
-            </form>
-        </li>
-    </ul>
-</div>
+{% load static %}
+
+<aside class="aside absolute flex flex-col justify-between  top-0 left-0  h-full rounded-2xl">
+    <div class="user-profile rounded-t-xl transition-all space-y-3  flex flex-col justify-center items-center py-4 px-4 hover:bg-sky-700">
+        <img alt="" class="profile-img rounded-full  cursor-pointer w-7 h-7 " src="https://unsplash.it/40/40"/>
+        <div class="text-center">
+            {% if request.user.student %}
+                <h3 class="full-name  font-bold text-lg hidden">{{ request.user.student.get_full_name }}</h3>
+                <h4 class="user-type hidden">Student</h4>
+            {% else %}
+                <h3 class="full-name  font-bold text-lg hidden">{{ request.user.teacher.get_full_name }}</h3>
+                <h4 class="user-type hidden">Teacher</h4>
+            {% endif %}
+        </div>
+    </div>
+    <div class="options space-y-2 flex flex-col">
+        <div class="px-4 py-4 cursor-pointer transition-all flex items-center space-x-6  hover:bg-sky-700 ">
+
+            <a href="{% url 'results_page' %}"><img class=" cursor-pointer inline h-7 w-7"
+                                                    src="{% static 'imgs/base/dashboard.png' %}" alt=""
+                                                    srcset=""></a>
+            <span class=" modules-text font-bold text-gray-800 text-lg hidden">Courses</span>
+        </div>
+        <div class="px-4 py-4 cursor-pointer transition-all flex items-center space-x-6 hover:bg-sky-700">
+            <a href="{% url 'settings' %}"><img class="cursor-pointer inline h-7 w-7"
+                                                src="{% static 'imgs/base/settings.png' %}" alt=""
+                                                srcset=""></a>
+            <span class=" settings-text font-bold text-gray-800  text-lg hidden">Settings</span>
+
+        </div>
+        <div class="px-4 py-4 cursor-pointer transition-all  flex items-center  space-x-6 justify-start  hover:bg-sky-700">
+            <a href="#"><img class="cursor-pointer inline h-7 w-7"
+                             src="{% static 'imgs/base/notifications.png' %}" alt=""
+                             srcset=""></a>
+            <span class="notifications-text text-gray-800 font-bold text-lg hidden">Notifications</span>
+
+        </div>
+    </div>
+    <div class="log-out cursor-pointer px-4  py-4 rounded-b-2xl hover:bg-red-500 transition-all flex  justify-start items-center space-x-6">
+        <form method="post" action="{% url 'account_logout' %}">
+            <button type="submit">
+                <img class="cursor-pointer inline h-7 w-7 " src="{% static 'imgs/base/logout.png' %}"
+                     alt="" srcset="">
+            </button>
+            {% csrf_token %}
+            <button type="submit">
+                <span class="logout-text font-bold text-gray-800 text-lg hidden">Log out</span>
+            </button>
+        </form>
+    </div>
+</aside>

@@ -1,7 +1,6 @@
-<a href="#" class="border-2 border-gray-500 block">
-    <ul>
-        <li>{{ result.exam }}</li>
-        Exam : <li>{{ result.mark }}</li>
-        <li>{{ result.exam.teacher.get_full_name }}</li>
-    </ul>
+<a href="{% url 'result_details' result.id %}"
+   class="module h-auto w-auto p-10 mr-10 mb-6 rounded-[25px] text-center">
+    <h2 class="module-name text-4xl font- bold mb-4">{{ result.exam }}</h2>
+    <h4 class="module-mark">Exam: {{ result.mark }}</h4>
+    <h4 class="module-teacher">{{ result.exam.teacher.get_full_name }}</h4>
 </a>

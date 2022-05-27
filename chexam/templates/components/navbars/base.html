@@ -1,11 +1,15 @@
-<div class="border-2 border-red-500">
-    Welcome, {{ request.user.username }}
-    <br>
-    Semester 2,
-    {% if request.user.teacher %}
-        {{ request.user.teacher.module_name }}
-    {% elif request.user.student %}
-        {{ request.user.student.calc_average }}
-    {% endif %}
-
+<div class="user-info-resume flex justify-between">
+    <div class="user-name mt-6">
+        <p class="text-xl text-gray-800 font-bold">Welcome, {{ request.user.username }}</p>
+    </div>
+    <div class="ditails mt-4 pr-10 text-white">
+        <p class="semeter font-bold">Semester 2</p>
+        <p class="time">
+            {% if request.user.teacher %}
+                {{ request.user.teacher.module_name }}
+            {% elif request.user.student %}
+                {{ request.user.student.calc_average }}
+            {% endif %}
+        </p>
+    </div>
 </div>

@@ -23,16 +23,13 @@ class Student(models.Model):
 
     def calc_average(self):
         results = self.result_set.all()
-        return sum(result.mark for result in results) / len(results)
+        if len(results):
+            return sum(result.mark for result in results) / len(results)
+        return 0
 
 
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,db_constraint=False)
-
-
-class Administrator(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE,db_constraint=False)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, db_constraint=False)
     module_name = models.CharField(max_length=500, default="")
 
     def __str__(self):
@@ -44,6 +41,10 @@ class Administrator(models.Model):
 
 class Administrator(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, db_constraint=False)
+    module_name = models.CharField(max_length=500, default="")
+
+    def __str__(self):
+        return self.user.username
 
     def get_full_name(self):
         return f'{self.user.first_name} {self.user.last_name}'

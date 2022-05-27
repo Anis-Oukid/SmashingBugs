@@ -1,0 +1,55 @@
+{% if result.verified %}
+    {{ result.student.user.get_full_name }} has verified his exam paper
+{% else %}
+    {{ result.student.user.get_full_name }}'s report
+
+    {% for problem in problems %}
+        <div class="reports space-y-2">
+            <h1 class="text-center text-white text-4xl font-bold ">Oussim, Hamodani Reports</h1>
+            <div class="report-modal flex justify-evenly w-[90%] py-4" style="background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);">
+                <div class="cropped-img-reclamation h-20 w-1/2 bg-white p-6">
+
+                </div>
+
+                <div class="flex justofy-center items-center space-x-4">
+                    <form action="{% url 'validate_problem' problem.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="button"
+                                class="text-[#006B2B] text-center px-4 py-6 rounded-xl flex justify-center items-center h-10 w-28"
+                                style="
+                background: rgba(255, 255, 255, 0.8);
+                box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);">
+                            <img src="./images/validate-report.svg" class="inline">Validate
+                        </button>
+                    </form>
+                    <form action="{% url 'refuse_problem' problem.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit"
+                                class="text-[#FF3636] text-center px-4 py-6 rounded-xl flex justify-center items-center h-10 w-28"
+                                style="
+                background: rgba(255, 255, 255, 0.8);
+                box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);">
+                            <img src="./images/refuse.svg" class="inline">
+                            Refuse
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+{#        <ul class="border-2 border-pink-500">#}
+{#            <li>Screen shot (if any)</li>#}
+{#            <form action="{% url 'validate_problem' problem.id %}" method="post">#}
+{#                {% csrf_token %}#}
+{#                <button type="submit">Validate</button>#}
+{#            </form>#}
+{##}
+{#            <form action="{% url 'refuse_problem' problem.id %}" method="post">#}
+{#                {% csrf_token %}#}
+{#                <button type="submit">Refuse</button>#}
+{#            </form>#}
+{#        </ul>#}
+    {% endfor %}
+{% endif %}

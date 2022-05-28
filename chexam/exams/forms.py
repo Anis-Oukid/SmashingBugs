@@ -10,11 +10,8 @@ class addPdf(forms.ModelForm):
         widgets = {
 
             'exam': forms.TextInput(attrs={
-               'id':"input1" ,
-               'type':"text" ,
-               'class':"form-control",
-               'placeholder':"Nom" ,
-               'value':"{{user.teacher}}",
+            
+               'value':"{{user.teacher.module_name}}",
                   
                
             }),}

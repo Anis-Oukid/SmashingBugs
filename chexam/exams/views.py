@@ -85,7 +85,7 @@ def add_scans(request):
         'sol_form': sol_form,
         'scan_form':scan_form
     }
-    return render(request, "exams/reclamations_page/index.html", context=context)
+    return render(request, "exams/add_solution/index.html", context=context)
 
 
 @login_required

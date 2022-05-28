@@ -7,12 +7,52 @@
 
 {% block content %}
 
-    <div class="report-list space-y-6 mt-5 overflow-y-auto max-h-[380px]">
-        {% for reclamation in reclamations %}
-            {% include 'exams/reclamations_page/components/reclamation.html' with reclamation=reclamation %}
-        {% endfor %}
-    </div>
+    <div class="flex flex-col justify-between h-[60vh]">
+        <div class="report-list space-y-6 mt-5 overflow-y-auto max-h-[380px]">
+            {% if not reclamations %}
+                <span class="text-md text-gray-800">Yay, no reclamations !</span>
+            {% endif %}
+            {% for reclamation in reclamations %}
+                {% include 'exams/reclamations_page/components/reclamation.html' with reclamation=reclamation %}
+            {% endfor %}
+        </div>
 
-    <a href="#">Upload solution</a>
-    <a href="#">Make announcement</a>
+        <div class="flex flex-row justify-end">
+            <div class="announcement-buttons flex flex-col pr-4 space-y-2">
+                <button
+                        id="add-announcment"
+                        class="rounded-full bg-white w-20 h-20 flex justify-center items-center">
+                    <img src="{% static 'imgs/announcement.svg' %}" class="w-10">
+
+                </button>
+                <button
+                        id="add-student"
+                        class="rounded-full bg-transparent w-20 h-20 flex justify-center items-center transition-all hover:scale-105">
+                    <svg width="79" height="79" viewBox="0 0 79 79" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g filter="url(#filter0_d_24_3)">
+                            <path fill="white" fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M39.5 3.29163C19.5031 3.29163 3.29166 19.5031 3.29166 39.5C3.29166 59.4968 19.5031 75.7083 39.5 75.7083C59.4969 75.7083 75.7083 59.4968 75.7083 39.5C75.7083 19.5031 59.4969 3.29163 39.5 3.29163ZM42.7917 52.6666C42.7917 53.5396 42.4449 54.3769 41.8276 54.9942C41.2102 55.6115 40.373 55.9583 39.5 55.9583C38.627 55.9583 37.7897 55.6115 37.1724 54.9942C36.5551 54.3769 36.2083 53.5396 36.2083 52.6666V42.7916H26.3333C25.4603 42.7916 24.6231 42.4448 24.0058 41.8275C23.3885 41.2102 23.0417 40.373 23.0417 39.5C23.0417 38.627 23.3885 37.7897 24.0058 37.1724C24.6231 36.5551 25.4603 36.2083 26.3333 36.2083H36.2083V26.3333C36.2083 25.4603 36.5551 24.623 37.1724 24.0057C37.7897 23.3884 38.627 23.0416 39.5 23.0416C40.373 23.0416 41.2102 23.3884 41.8276 24.0057C42.4449 24.623 42.7917 25.4603 42.7917 26.3333V36.2083H52.6667C53.5397 36.2083 54.3769 36.5551 54.9942 37.1724C55.6115 37.7897 55.9583 38.627 55.9583 39.5C55.9583 40.373 55.6115 41.2102 54.9942 41.8275C54.3769 42.4448 53.5397 42.7916 52.6667 42.7916H42.7917V52.6666Z"
+                                  fill="white"/>
+                        </g>
+                        <defs>
+                            <filter id="filter0_d_24_3" x="-0.708336" y="-0.708374" width="80.4167" height="80.4166"
+                                    filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                <feColorMatrix in="SourceAlpha" type="matrix"
+                                               values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                                               result="hardAlpha"/>
+                                <feOffset/>
+                                <feGaussianBlur stdDeviation="2"/>
+                                <feComposite in2="hardAlpha" operator="out"/>
+                                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_24_3"/>
+                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_24_3" result="shape"/>
+                            </filter>
+                        </defs>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+    </div>
 {% endblock %}

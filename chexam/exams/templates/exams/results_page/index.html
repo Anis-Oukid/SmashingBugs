@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {#    <h1 class="text-2xl text-red-500">my results :</h1>#}
     <div class="modules-list max-h-[350px] overflow-y-auto mt-10 flex flex-wrap">
+        {% if not results %}
+            <span class="text-gray-800">No results</span>
+        {% endif %}
         {% for result in results %}
             {% include 'exams/results_page/components/result.html' with result=result %}
         {% endfor %}

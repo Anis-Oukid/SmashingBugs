@@ -4,7 +4,11 @@
             {% if header_title %}
                 {{ header_title }}
             {% else %}
-                Welcome, {{ request.user.username }}
+                {% if request.user.is_staff %}
+                    ADMIN
+                {% else %}
+                    Welcome, {{ request.user.username }}
+                {% endif %}
             {% endif %}
         </p>
     </div>

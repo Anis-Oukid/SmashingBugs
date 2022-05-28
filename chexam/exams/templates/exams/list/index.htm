@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Exams{% endblock %}
+
+{% block content %}
+    {% if not exams %}
+        <div class="text-gray-800">No exams</div>
+    {% endif %}
+    <div class="modules-list max-h-[350px] overflow-y-auto mt-10 flex flex-wrap">
+        <a href="{% url 'add_exam' %}"
+           class="module h-40 w-40 mx-3.5 mb-5 items-center  flex flex-col justify-center p-5 rounded-3xl text-center">
+            <h2 class="module-name text-2xl font- bold mb-4">New Exam</h2>
+            <i class="fa fa-xl fa-plus"></i>
+        </a>
+        {% for exam in exams %}
+            <a href="#"
+               class="module h-40 w-40 mx-3.5 mb-5 items-center  flex flex-col justify-center p-5 rounded-3xl text-center">
+                <h2 class="module-name text-4xl font- bold mb-4">{{ exam.module_name }}</h2>
+                <h4 class="module-mark">Teacher: {{ exam.teacher.get_full_name }}</h4>
+                <h4 class="module-teacher">{{ exam.date_passed|date:'Y:m:d' }}</h4>
+            </a>
+        {% endfor %}
+    </div>
+
+{% endblock %}

@@ -1,5 +1,5 @@
 # SmashingBugs
-# We WINNNNN inchallah
+# We WINNNNN inchallah (haha no)
 # ByteCraft Hackathon : CodeRally
 # Ouassim Hamdani
 # Abdesslam Dai

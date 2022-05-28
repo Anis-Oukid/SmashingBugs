@@ -1,13 +1,24 @@
 {% load static %}
 
-<div class="border-2 border-gray-500 block">
-    <ul>
-        <li>
-            <img width="30" src="{% static 'imgs/accounts/user.png' %}" alt="Avatar">
-        </li>
-        <li>{{ reclamation.result.student.get_full_name }}</li>
-        <li>{{ reclamation.result.student.classroom }}</li>
-        <li>{{ reclamation.result.date_created|date:"Y-m-d" }}</li>
-    </ul>
-    <a href="{% url 'result_details' reclamation.result.id %}">Consult</a>
+
+<div class="report-item space-y-2 shadow-lg flex justify-between px-10 w-[60%] py-8 rounded-2xl m-auto card">
+    <div class="flex space-x-6">
+        <div class="profile-image">
+            <img alt="" src="{% include 'accounts/components/profile_img.html' %}" width="70" height="70"
+                 class="rounded-full">
+        </div>
+        <div class="user-details">
+            <h2 class="user-name font-bold">{{ reclamation.result.student.get_full_name }}</h2>
+            <h5 class="year-class">{{ reclamation.result.student.classroom }}</h5>
+            <h4 class="exam-date">{{ reclamation.result.date_created|date:"Y-m-d" }}</h4>
+        </div>
+    </div>
+
+    <div class="flex items-end">
+        <a href="{% url 'result_details' reclamation.result.id %}"
+           class="text-green-600 shadow-lg font-semibold space-x-2 text-center px-4 py-6 rounded-xl flex justify-center items-center h-10 w-28 bg-[#ffffffcc] transition-all hover:bg-gray-200">
+            <span>Consult</span>
+            <img alt="" src="{% static 'imgs/consultIcon.svg' %}" class="w-5">
+        </a>
+    </div>
 </div>

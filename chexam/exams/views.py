@@ -1,5 +1,5 @@
 import json
-import glob, sys, fitz
+# import glob, sys, fitz
 import os
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
@@ -11,6 +11,8 @@ from django.shortcuts import render, redirect
 from .models import Result, Reclamation, Problem
 from accounts.models import Teacher, Student
 from pdf2image import convert_from_path
+
+
 def is_teacher(user):
     return Teacher.objects.filter(user=user).exists()
 
@@ -39,7 +41,7 @@ from django.http import FileResponse
 @login_required
 def result_details(request, pk):
     result = Result.objects.get(id=pk)
-    if is_student(request.user) and result.student == request.user.student\
+    if is_student(request.user) and result.student == request.user.student \
             or (is_teacher(request.user) and result.exam.teacher == request.user.teacher):
         problems = Problem.objects.filter(reclamation__result=result)
         context = {
@@ -67,10 +69,9 @@ def reclamations_page(request):
 def verify_result(request, pk):
     try:
         result = Result.objects.get(id=pk)
-        pdf_link= result.scan.url
-        images=f"./{result.scan.url}"
-        images_link= f"{images}/Photos"
-        
+        pdf_link = result.scan.url
+        images = f"./{result.scan.url}"
+        images_link = f"{images}/Photos"
 
         if is_student(request.user) and result.student == request.user.student:
             if request.method == "POST":

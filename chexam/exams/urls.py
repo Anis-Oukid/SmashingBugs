@@ -9,4 +9,5 @@ urlpatterns = [
     path('problem/<int:pk>/validate/', views.validate_problem, name='validate_problem'),
     path('problem/<int:pk>/refuse/', views.refuse_problem, name='refuse_problem'),
     path('reclamation/<int:pk>/add_problem/', views.add_problem, name='add_problem'),
+    path('add_solution/', views.add_scans, name='add_solution'),
 ]

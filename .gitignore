@@ -24,3 +24,4 @@ venv.bak/
 .idea/
 
 chexam/db.sqlite3
+chexam/db.sqlite3

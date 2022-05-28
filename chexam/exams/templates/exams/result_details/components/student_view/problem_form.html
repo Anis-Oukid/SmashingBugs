@@ -15,20 +15,51 @@
                     <img src="{% static 'imgs/add.svg' %}" class="h-12 w-12" alt="">
                 </button>
             </div>
-            <div class="description items-start">
-                <label>
-                    <input type="text" placeholder="Description"
-                           class="text-sm p-2 text-left   rounded-lg shadow-xl w-11/12 h-28">
-                </label>
-            </div>
-            <div class="buttons flex justify-end">
-                <button class="bg-[#474F93] px-5 rounded-lg text-white justify-start py-2 font-semibold space-x-2 flex flex-row items-center">
-                    <img src="{% static 'imgs/send.svg' %}" class="w-5" alt=""><span>Send</span></button>
-            </div>
+            <form id="add-problem-form" method="post" action="{% url 'add_problem' result.reclamation.id %}">
+                <div class="description items-start">
+                    <label>
+                    <textarea name="comment" placeholder="Comment"
+                              class="text-sm p-2 text-left   rounded-lg shadow-xl w-11/12" rows="2"></textarea>
+                    </label>
+                    <label>
+                        <div class="flex justify-center">
+                            <div class="mb-3 xl:w-96">
+                                <select name="problem_type"
+                                        class="form-select appearance-none
+      block
+      w-full
+      px-3
+      py-1.5
+      text-base
+      font-normal
+      text-gray-700
+      bg-white bg-clip-padding bg-no-repeat
+      border border-solid border-gray-300
+      rounded
+      transition
+      ease-in-out
+      m-0
+      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                                    <option value="counting" selected>Counting</option>
+                                    <option value="miss_judging">Miss Judging</option>
+                                    <option value="forgetting">Forgetting</option>
+                                </select>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+                <div class="buttons flex justify-end">
+                    <button type="submit"
+                            class="bg-[#474F93] px-5 rounded-lg text-white justify-start py-2 font-semibold space-x-2 flex flex-row items-center">
+                        <img src="{% static 'imgs/send.svg' %}" class="w-5" alt=""><span>Send</span></button>
+                </div>
+                <div id="form-response" class="text-dark mt-4">
+
+                </div>
+            </form>
         </div>
     </div>
 </div>
-
 
 
 <style>

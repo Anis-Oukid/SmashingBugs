@@ -62,7 +62,8 @@ def convertPDFToImg(pdfLoc):
     images = convert_from_path(pdfLoc, 500, poppler_path=r'C:\Program Files\poppler-0.67.0\bin')
     for i in range(len(images)):
         images[i].save('page' + str(i) + '.jpg', 'JPEG')
-    
+
+@login_required
 def add_scans(request):
     teacher = request.user.teacher
     sol_form = addSolutionForm(request.POST, request.FILES)

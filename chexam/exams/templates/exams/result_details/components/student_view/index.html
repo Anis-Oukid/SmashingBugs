@@ -1,35 +1,22 @@
+<div id="main-content">
+    {% include 'exams/result_details/components/student_view/pdfs.html' with student_view=True %}
+    {% include 'exams/result_details/components/student_view/report_form.html' %}
+</div>
+{% include 'exams/result_details/components/student_view/problem_form.html' %}
 
-<br>
-<h1 class="text-2xl text-red-500">result of {{ result.exam.module_name }} exam</h1>
-
-{{ result.mark }}
-
-{% include 'exams/result_details/components/student_view/pdfs.html' %}
-{% include 'exams/result_details/components/student_view/report_form.html' %}
-
-
-<button onclick="takeshot()">
-    Take Screenshot
-</button>
-
-
-
-
-<div id="output"></div>
 <script>
-    function takeshot() {
-            let div =
-                document.getElementById('cpt');
-  
-            // Use the html2canvas
-            // function to take a screenshot
-            // and append it
-            // to the output div
-            html2canvas(div).then(
-                function (canvas) {
-                    document
-                    .getElementById('output')
-                    .appendChild(canvas);
-                })
-        }
-    </script>
+    const addProblemFormOverlay = document.querySelector("#add-problem-form-overlay");
+    const reportBtn = document.querySelector("#report-btn");
+    const closeFormBtn = document.querySelector("#close-form-btn");
+    const mainContent = document.querySelector("#main-content");
+
+    reportBtn.addEventListener('click', function () {
+        addProblemFormOverlay.classList.remove("hidden");
+        mainContent.classList.add("hidden");
+    });
+
+    closeFormBtn.addEventListener('click', function () {
+        addProblemFormOverlay.classList.add("hidden");
+        mainContent.classList.remove("hidden");
+    });
+</script>

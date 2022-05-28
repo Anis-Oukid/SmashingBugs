@@ -73,9 +73,12 @@ def verify_result(request, pk):
         images = f"./{result.scan.url}"
         images_link = f"{images}/Photos"
 
-        if is_student(request.user) and result.student == request.user.student:
+        if is_student(request.user) and result.student == request.user.student \
+                or is_teacher(request.user) and result.exam.teacher == request.user.teacher:
             if request.method == "POST":
                 result.verified = True
+                result.reclamation.treated = True
+                result.reclamation.save()
                 result.save()
         return redirect("result_details", pk=result.reclamation.result.id)
     except:

@@ -25,7 +25,8 @@
                     <img src="{% static 'imgs/announcement.svg' %}" class="w-10">
 
                 </button>
-                <button
+                <a
+                        href="{% url 'add_solution' %}"
                         id="add-student"
                         class="rounded-full bg-transparent w-20 h-20 flex justify-center items-center transition-all hover:scale-105">
                     <svg width="79" height="79" viewBox="0 0 79 79" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -50,7 +51,7 @@
                             </filter>
                         </defs>
                     </svg>
-                </button>
+                </a>
             </div>
         </div>
 

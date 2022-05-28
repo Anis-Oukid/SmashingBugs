@@ -1,0 +1,36 @@
+<div class="report-modal shadow-lg  w-[90%] rounded-xl py-4 px-12 card">
+    <div class="w-full flex justify-between">
+        <div class="cropped-img-reclamation h-20 w-1/2 rounded-md bg-white ring-1">
+            {{ problem }}
+        </div>
+
+        <div class="flex justify-center items-center space-x-4">
+            <form action="{% url 'validate_problem' problem.id %}" method="post">
+                {% csrf_token %}
+
+                <button type="submit"
+                        class=" space-x-3 text-green-600 font-semibold text-center w-32 px-4 hover:text-white hover:bg-green-600 transition-all py-3 rounded-xl flex justify-center items-center bg-white">
+                    <i class="fa-solid fa-check text-lg"></i>
+                    <span>
+                                Validate
+                            </span>
+                </button>
+
+            </form>
+            <form action="{% url 'refuse_problem' problem.id %}" method="post">
+                {% csrf_token %}
+
+                <button type="submit"
+                        class=" space-x-4 my-auto text-red-600 font-semibold text-center  px-4 w-32 hover:text-white hover:bg-red-600 transition-all py-3 rounded-xl flex justify-center items-center bg-white">
+                    <i class="fa-solid fa-remove  text-lg"></i>
+                    <span>
+                                Refuse
+                            </span>
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="message mt-3 bg-white ring-1 px-2 rounded-md w-full h-fit min-h-20 py-2 text-sm">
+        <span class="text-blue-500">{{ problem.get_problem_type_display }} : </span>{{ problem.comment }}
+    </div>
+</div>

@@ -1,23 +1,24 @@
-<div class="flex flex-row space-x-10 mt-4 justify-center">
+<div id="pdfs" class="flex flex-row space-x-10 mt-4 justify-center">
     <div class="flex flex-col items-center justify-center space-y-7">
         <div class="w-96 bg-gray-100 rounded-md shadow-lg">
             <embed id="cpt" src="{{ result.exam.solution.url }}" width="100%" height="2100px"
                    style="max-height: 550px;"/>
         </div>
-        {% if not result.verified %}
-            <button class="flex space-x-2 items-center justify-center transition-all text-red-600 hover:text-white hover:bg-red-600 bg-white py-1.5 rounded-lg bg-opacity-40 px-3">
+        {% if not result.verified and student_view %}
+            <button id="report-btn"
+                    class="flex space-x-2 items-center justify-center transition-all text-red-600 hover:text-white hover:bg-red-600 bg-white py-1.5 rounded-lg bg-opacity-40 px-3">
                 <i class="fa-solid fa-triangle-exclamation "></i>
                 <span class=" font-semibold">Report</span>
             </button>
-        {% endif %}
 
+        {% endif %}
     </div>
 
     <div class="flex flex-col items-center justify-center space-y-7">
         <div class="w-96 bg-gray-100 rounded-md shadow-lg">
             <embed id="cpt" src="{{ result.scan.url }}" width="100%" height="2100px" style="max-height: 550px;"/>
         </div>
-        {% if not result.verified %}
+        {% if not result.verified and student_view %}
             <form action="{% url 'verify_result' result.id %}" method="post">
                 {% csrf_token %}
                 <button type="submit"
@@ -30,3 +31,4 @@
     </div>
 
 </div>
+

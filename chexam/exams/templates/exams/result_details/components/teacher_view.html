@@ -1,49 +1,26 @@
 {% load static %}
 
-{% include 'exams/result_details/components/student_view/pdfs.html' %}
+{% include 'exams/result_details/components/student_view/pdfs.html' with student_view=False%}
 
 {% if result.verified %}
     {{ result.student.user.get_full_name }} has verified his exam paper
 {% else %}
     {{ result.student.user.get_full_name }}'s report
 
-    <div class="reports space-y-4">
+    <div class="reports space-y-4 flex flex-col justify-start items-center">
         {% for problem in problems %}
-            <div class="report-modal flex justify-evenly rounded-xl w-[90%] py-4" style="background: rgba(255, 255, 255, 0.7);
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);">
-                <div class="cropped-img-reclamation h-20 w-1/2 bg-white p-6">
-
-                </div>
-
-                <div class="flex justofy-center items-center space-x-4">
-                    <form action="{% url 'validate_problem' problem.id %}" method="post">
-                        {% csrf_token %}
-
-                        <button type="submit"
-                                class=" space-x-3 text-green-600 font-semibold text-center w-32 px-4 hover:text-white hover:bg-green-600 transition-all py-3 rounded-xl flex justify-center items-center bg-white">
-                            <i class="fa-solid fa-check text-lg"></i>
-                            <span>
-                                Validate
-                            </span>
-                        </button>
-
-                    </form>
-                    <form action="{% url 'refuse_problem' problem.id %}" method="post">
-                        {% csrf_token %}
-
-                        <button type="submit"
-                                class=" space-x-4 my-auto text-red-600 font-semibold text-center  px-4 w-32 hover:text-white hover:bg-red-600 transition-all py-3 rounded-xl flex justify-center items-center bg-white">
-                            <i class="fa-solid fa-remove  text-lg"></i>
-                            <span>
-                                Refuse
-                            </span>
-                        </button>
-                    </form>
-                </div>
-            </div>
-
-
-
+            {% include 'exams/result_details/components/problem_teacher_view.html' with problem=problem %}
         {% endfor %}
     </div>
+
+    {% if not result.verified %}
+        <form action="{% url 'verify_result' result.id %}" method="post" class="mt-10 flex justify-end pr-10">
+            {% csrf_token %}
+            <button type="submit"
+                    class="flex space-x-2 items-center transition-all text-green-600 hover:bg-green-600 hover:text-white  justify-center bg-white py-1.5 rounded-lg bg-opacity-40 px-3">
+                <i class="fa-solid fa-check"></i>
+                <span class=" font-semibold">Verify</span>
+            </button>
+        </form>
+    {% endif %}
 {% endif %}

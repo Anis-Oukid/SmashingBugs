@@ -1,9 +1,87 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block stylesheets %}
+    <style>
+        main {
+            background: linear-gradient(76.17deg, #0089D8 57.21%, #3C4986 72.63%, #423E7D 77.28%, #522066 90.43%);
+        }
+
+        .glass {
+            background: linear-gradient(117.23deg, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0.12) 100%);
+            backdrop-filter: blur(87.6994px);
+        }
+
+        .circle1 {
+
+            background: linear-gradient(180deg, #030452 0%, #5B2877 50%);
+            filter: blur(250px);
+        }
+
+        .circle2 {
+            background: linear-gradient(180deg, #030452 0%, #5B2877 50%);
+            filter: blur(210px);
+        }
+
+        aside {
+            background: linear-gradient(117.23deg, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0.12) 100%);
+            backdrop-filter: blur(87.6994px);
+        }
+
+        .module {
+            background: linear-gradient(135.17deg, rgba(255, 255, 255, 0.66) 6.15%, rgba(255, 255, 255, 0.396) 95.16%);
+            box-shadow: 4.38497px 4.38497px 9.86618px rgba(0, 0, 0, 0.25);
+        }
+
+        .user-profile:hover + aside {
+            display: none;
+        }
+
+        .card {
+
+            background: linear-gradient(117.23deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.20) 100%);
+            backdrop-filter: blur(87.6994px);
+
+        }
+    </style>
+{% endblock %}
 
 {% block content %}
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-{{scan_form}}
-<input type="submit" name='scan_btn' value="submit">
-</form>
+    <div class="space-y-7 flex flex-col items-center mt-10 justify-center">
+        <div class="cardrect flex flex-row card space-x-2 shadow-lg w-2/3 px-3 py-2 rounded-lg">
+            <img src="{% static 'imgs/upload.png' %}" class="w-36 " alt="">
+            <div id="students-files-div"
+                 class="flex flex-col cursor-pointer justify-center space-y-1">
+                <h1 class="text-lg font-bold text-slate-900">Upload Students Files</h1>
+                <p class="text-gray-800">Upload students exams paper to the database.</p>
+            </div>
+            <input type="file" id="students_files" class="hidden" name="students_files" multiple>
+        </div>
+        <div class="cardrect flex flex-row card space-x-2 shadow-lg w-2/3 px-7 py-4 rounded-lg">
+            <img src="{% static 'imgs/upload2.png' %}" class="w-32" alt="">
+            <div id="correction_div"
+                 class="flex flex-col cursor-pointer justify-center space-y-1">
+                <h1 class="text-lg font-bold text-slate-900">Upload corrections</h1>
+                <p class="text-gray-800">Upload exams corrections to the data base.</p>
+            </div>
+            <input type="file" class="hidden" id="correction" name="correction"><br><br>
+        </div>
+    </div>
+    <script>
+        const studentsFilesDiv = document.querySelector("#students-files-div");
+        const studentsFiles = $("#students_files");
+
+        const correctionDiv = document.querySelector("#correction_div");
+        const correction = $("#correction");
+
+        studentsFilesDiv.addEventListener('click', function (e) {
+            studentsFiles.trigger('click')
+        });
+
+        correctionDiv.addEventListener('click', function (e) {
+            correction.trigger('click')
+        });
+    </script>
+
 {% endblock %}
+

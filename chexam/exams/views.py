@@ -69,6 +69,8 @@ def convertPDFToImg(pdfLoc,destin):
         images[i].save('page' + str(i) + '.jpg', 'JPEG')
         shutil.move('page' +str(i)+'.jpg', destin)
     
+
+@login_required
 def add_scans(request):
     teacher = request.user.teacher
     sol_form = addSolutionForm(request.POST, request.FILES)

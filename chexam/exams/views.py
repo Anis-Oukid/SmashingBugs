@@ -1,7 +1,7 @@
 from email.errors import MultipartInvariantViolationDefect
 import json
 import glob, sys, fitz
-from exams.forms import addPdf
+from exams.forms import addPdf,addSolutionForm
 import os
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
@@ -56,12 +56,30 @@ def convertPDFToImg(pdfLoc):
     images = convert_from_path(pdfLoc,500,poppler_path=r'C:\Program Files\poppler-0.67.0\bin')
     for i in range(len(images)):
         images[i].save('page'+ str(i) +'.jpg', 'JPEG')
-def add_sol(request):
-        if request.method == "POST" :
-            
-            sol=request.POST.get('solutionInput')
-            exam.solution=sol
-            exam.save()
+    
+def add_scans(request):
+    teacher = request.user.teacher
+    sol_form = addSolutionForm(request.POST, request.FILES)
+    scan_form = addPdf(request.POST, request.FILES)
+    if request.method == "POST" and 'sol_btn' in request.POST: 
+            exam = Exam.objects.get(teacher=teacher)
+            sol_form = addSolutionForm(request.POST, request.FILES,instance=exam)
+            if sol_form.is_valid():
+                sol_form.save()
+    if request.method == "POST" and 'scan_btn' in request.POST: 
+            exam = Exam.objects.get(teacher=teacher)
+            student=Student.objects.get(matricule='111') #wassim will send module to get matricule
+
+            result=Result(student=student,teacher=teacher,mark=14.5)
+            result.save()
+            scan_form = addPdf(request.POST, request.FILES,instance=result)   
+            if scan_form.is_valid():
+                scan_form.save()
+    context = {
+        'sol_form': sol_form,
+        'scan_form':scan_form
+    }
+    return render(request, "exams/reclamations_page/index.html", context=context)
 
 @login_required
 def reclamations_page(request):

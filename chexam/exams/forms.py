@@ -15,3 +15,9 @@ class addPdf(forms.ModelForm):
                   
                
             }),}
+class addSolutionForm(forms.ModelForm):
+    solution=forms.FileField()
+    class Meta:
+        model = Result
+        fields=['solution']
+        

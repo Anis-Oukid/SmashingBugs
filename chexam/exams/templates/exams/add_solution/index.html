@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-s
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+{{scan_form}}
+<input type="submit" name='scan_btn' value="submit">
+</form>
 {% endblock %}

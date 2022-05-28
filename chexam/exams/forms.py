@@ -1,23 +1,17 @@
 from django.forms.widgets import Select, Widget
 from django import forms
-from exams.models import Result
+from exams.models import Result,Exam
 class addPdf(forms.ModelForm):
-    CHOICES = (('sfsd', 'sfsd'),('sfsd1', 'sfsd1'),)
     scan=forms.FileField()
     class Meta:
         model = Result
-        fields=['scan','exam','student','mark']
+        fields=['scan']
         widgets = {
 
-            'exam': forms.TextInput(attrs={
-            
-               'value':"{{user.teacher.module_name}}",
-                  
-               
-            }),}
+           }
 class addSolutionForm(forms.ModelForm):
     solution=forms.FileField()
     class Meta:
-        model = Result
+        model = Exam
         fields=['solution']
         

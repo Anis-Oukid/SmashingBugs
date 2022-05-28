@@ -57,11 +57,17 @@ def result_details(request, pk):
 
     raise Http404
 
-
-def convertPDFToImg(pdfLoc):
+import os
+import shutil
+def convertPDFToImg(pdfLoc,destin):
+    temp = list(pdfLoc)
+    temp[0] = ''
+    pdfLoc = "".join(temp)
+        
     images = convert_from_path(pdfLoc, 500, poppler_path=r'C:\Program Files\poppler-0.67.0\bin')
     for i in range(len(images)):
         images[i].save('page' + str(i) + '.jpg', 'JPEG')
+        shutil.move('page' +str(i)+'.jpg', destin)
     
 def add_scans(request):
     teacher = request.user.teacher
@@ -72,20 +78,25 @@ def add_scans(request):
             sol_form = addSolutionForm(request.POST, request.FILES,instance=exam)
             if sol_form.is_valid():
                 sol_form.save()
-    if request.method == "POST" and 'scan_btn' in request.POST: 
+                return redirect("reclamations_page")
+    if request.method == "POST" and 'scan_btn' in request.POST:        
             exam = Exam.objects.get(teacher=teacher)
-            student=Student.objects.get(matricule='111') #wassim will send module to get matricule
-
-            result=Result(student=student,teacher=teacher,mark=14.5)
+            student=get_object_or_404(Student,matricule='111') #wassim will send module to get matricule           
+            result=Result(student=student,exam=exam,mark=14.7)
             result.save()
             scan_form = addPdf(request.POST, request.FILES,instance=result)   
             if scan_form.is_valid():
                 scan_form.save()
+                file_p=Result.objects.get(student=student)
+                file_path=rf'{file_p.scan.url}'
+                destin=rf'media/{exam.id}/{student}/PDFs/'
+                convertPDFToImg(file_path,destin)
+                return redirect("reclamations_page")
     context = {
         'sol_form': sol_form,
         'scan_form':scan_form
     }
-    return render(request, "exams/reclamations_page/index.html", context=context)
+    return render(request, "exams/add_solution/index.html", context=context)
 
 
 @login_required

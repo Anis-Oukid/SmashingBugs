@@ -22,7 +22,7 @@ def folder_name(result, filename):
 
 class Result(Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    student = models.OneToOneField(Student, on_delete=models.CASCADE)
     mark = models.FloatField()
     scan = models.FileField(upload_to=folder_name, default=None,blank=True)
     verified = models.BooleanField(default=False)

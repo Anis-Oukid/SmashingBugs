@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
 
+from .forms import imgForm
 from .models import Result
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect
@@ -62,10 +63,14 @@ def result_details(request, pk):
     if is_student(request.user) and result.student == request.user.student \
             or (is_teacher(request.user) and result.exam.teacher == request.user.teacher):
         problems = Problem.objects.filter(reclamation__result=result)
+
+        import glob
+        ps = glob.glob(rf"media/{result.exam.id}/{result.student}/PDFs/*.jpg")
         context = {
             'is_teacher': is_teacher(request.user),
             'problems': problems,
             'result': result,
+            'images': [str(p) for p in ps]
         }
         return render(request, "exams/result_details/result_details.html", context=context)
 
@@ -75,12 +80,13 @@ def result_details(request, pk):
 import os
 import shutil
 
-def convertPDFToImg2(pdfLoc,destin):
+
+def convertPDFToImg2(pdfLoc, destin):
     temp = list(pdfLoc)
     temp[0] = ''
     pdfLoc = "".join(temp)
 
-    images = convert_from_path(pdfLoc, 500, poppler_path=r'C:\Program Files\poppler-0.67.0\bin')
+    images = convert_from_path(pdfLoc, 500)
     for i in range(len(images)):
         images[i].save('page' + str(i) + '.jpg', 'JPEG')
         shutil.move('page' + str(i) + '.jpg', destin)
@@ -92,39 +98,38 @@ def add_scans(request):
     sol_form = addSolutionForm(request.POST, request.FILES)
     scan_form = addPdf(request.POST, request.FILES)
     if request.method == "POST":
-       
+        test_student = get_object_or_404(Student, matricule='111')
 
-         
-            test_student=get_object_or_404(Student,matricule='111') 
-            res=Result.objects.get(student=test_student) 
+        if Result.objects.filter(student=test_student).exists():
+            res = Result.objects.get(student=test_student)
             res.delete()
-            exam = Exam.objects.get(teacher=teacher)
-            student=get_object_or_404(Student,matricule='222') #wassim will send module to get matricule           
-            result=Result(student=test_student,exam=exam,mark=0.0)
-            
-            scan_form = addPdf(request.POST, request.FILES,instance=result)   
+        exam = Exam.objects.get(teacher=teacher)
+        student = get_object_or_404(Student, matricule='222')  # wassim will send module to get matricule
+        result = Result(student=test_student, exam=exam, mark=0.0)
+
+        scan_form = addPdf(request.POST, request.FILES, instance=result)
+        if scan_form.is_valid():
+            scan_form.save()
+            file_p = Result.objects.get(student=test_student)
+            file_path = rf'{file_p.scan.url}'
+            temp = list(file_path)
+            temp[0] = ''
+            file_pat = "".join(temp)
+            result2 = Result(student=student, exam=exam, mark=1)
+            scan_form = addPdf(request.POST, request.FILES, instance=result2)
             if scan_form.is_valid():
                 scan_form.save()
-                file_p=Result.objects.get(student=test_student)
-                file_path=rf'{file_p.scan.url}'
-                temp = list(file_path)
-                temp[0] = ''
-                file_pat = "".join(temp)
-                result2=Result(student=student,exam=exam,mark=1)
-                scan_form = addPdf(request.POST, request.FILES,instance=result2)  
-                if scan_form.is_valid():
-                    scan_form.save()
-                result2.save()
-                file_path=rf'{file_p.scan.url}'
-                destin=rf'media/{exam.id}/{student}/PDFs/'
-                convertPDFToImg2(file_path,destin)
-                return redirect("reclamations_page")
-            if name=='sol_btn' : 
-                        exam = Exam.objects.get(teacher=teacher)
-                        sol_form = addSolutionForm(request.POST, request.FILES,instance=exam)
-                        if sol_form.is_valid():
-                            sol_form.save()
-                            return redirect("reclamations_page")
+            result2.save()
+            file_path = rf'{file_p.scan.url}'
+            destin = rf'media/{exam.id}/{student}/PDFs/'
+            convertPDFToImg2(file_path, destin)
+            return redirect("reclamations_page")
+        # if name == 'sol_btn':
+        #     exam = Exam.objects.get(teacher=teacher)
+        #     sol_form = addSolutionForm(request.POST, request.FILES, instance=exam)
+        #     if sol_form.is_valid():
+        #         sol_form.save()
+        #         return redirect("reclamations_page")
     context = {
         'sol_form': sol_form,
         'scan_form': scan_form
@@ -215,24 +220,32 @@ def validate_problem(request, pk):
 def add_problem(request, pk):
     user = request.user
     message = {}
+    # sol_form = imgForm(request.POST, request.FILES)
 
     try:
-        reclamation = get_object_or_404(Reclamation, id=pk)
+        reclamation = Reclamation.objects.get(id=pk)
 
         if request.method == 'POST':
+
             comment = request.POST.get('comment')
             problem_type = request.POST.get('problem_type')
-            problem_photo = request.POST.get('croped')
             problem_types = ('counting', 'miss_judging', 'forgetting')
+            screenshot = request.FILES.get('screenshot')
+
+            print(request.FILES)
+            print(screenshot)
 
             if problem_type in problem_types:
                 problem = Problem(
                     reclamation=reclamation,
                     comment=comment,
                     problem_type=problem_type,
-                    scan=problem_photo,
+                    scan=screenshot,
                 )
                 problem.save()
+                # sol_form = imgForm(request.POST, request.FILES, instance=problem)
+                print(request.FILES.get("screenshot"))
+
                 message = 'Problem added'
             else:
                 message = 'Invalid problem type'

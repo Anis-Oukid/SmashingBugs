@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
 
+from .forms import imgForm
 from .models import Result
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect
@@ -62,10 +63,14 @@ def result_details(request, pk):
     if is_student(request.user) and result.student == request.user.student \
             or (is_teacher(request.user) and result.exam.teacher == request.user.teacher):
         problems = Problem.objects.filter(reclamation__result=result)
+
+        import glob
+        ps = glob.glob(rf"media/{result.exam.id}/{result.student}/PDFs/*.jpg")
         context = {
             'is_teacher': is_teacher(request.user),
             'problems': problems,
             'result': result,
+            'images': [str(p) for p in ps]
         }
         return render(request, "exams/result_details/result_details.html", context=context)
 
@@ -75,12 +80,13 @@ def result_details(request, pk):
 import os
 import shutil
 
-def convertPDFToImg2(pdfLoc,destin):
+
+def convertPDFToImg2(pdfLoc, destin):
     temp = list(pdfLoc)
     temp[0] = ''
     pdfLoc = "".join(temp)
 
-    images = convert_from_path(pdfLoc, 500, poppler_path=r'C:\Program Files\poppler-0.67.0\bin')
+    images = convert_from_path(pdfLoc, 500)
     for i in range(len(images)):
         images[i].save('page' + str(i) + '.jpg', 'JPEG')
         shutil.move('page' +str(i)+'.jpg', destin)
@@ -199,6 +205,7 @@ def add_scans(request):
     return render(request, "exams/add_solution/index.html", context=context)
 
 
+
 @login_required
 def reclamations_page(request):
     teacher = request.user.teacher
@@ -282,24 +289,32 @@ def validate_problem(request, pk):
 def add_problem(request, pk):
     user = request.user
     message = {}
+    # sol_form = imgForm(request.POST, request.FILES)
 
     try:
-        reclamation = get_object_or_404(Reclamation, id=pk)
+        reclamation = Reclamation.objects.get(id=pk)
 
         if request.method == 'POST':
+
             comment = request.POST.get('comment')
             problem_type = request.POST.get('problem_type')
-            problem_photo = request.POST.get('croped')
             problem_types = ('counting', 'miss_judging', 'forgetting')
+            screenshot = request.FILES.get('screenshot')
+
+            print(request.FILES)
+            print(screenshot)
 
             if problem_type in problem_types:
                 problem = Problem(
                     reclamation=reclamation,
                     comment=comment,
                     problem_type=problem_type,
-                    scan=problem_photo,
+                    scan=screenshot,
                 )
                 problem.save()
+                # sol_form = imgForm(request.POST, request.FILES, instance=problem)
+                print(request.FILES.get("screenshot"))
+
                 message = 'Problem added'
             else:
                 message = 'Invalid problem type'

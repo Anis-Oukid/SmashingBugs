@@ -11,32 +11,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.css"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js"></script>
 
-        <div class="page border-4 border-blue-400">
-            <div class="form-group container">
-                <label for="file">Upload Image File:</label>
-                <input class="form-control box" accept="image/*" type="file" required id="file-input"/>
-            </div>
-            <div class="box-2">
-                <div class="result"></div>
-            </div>
-            <!--rightbox-->
-            <div class="box-2 img-result">
-                <!-- result of crop -->
-                <img class="cropped" src="" alt=""/>
-            </div>
-            <!-- input file -->
-            <div class="box">
-                <div class="options hide">
-                    <label> Width</label>
-                    <input type="number" class="img-w" value="300" min="100" max="1200"/>
-                </div>
-                <!-- save btn -->
-                <button class="btn save hide">Save</button>
-                <!-- download btn -->
-                <a href="" class="btn download hide">Download</a>
-            </div>
-        </div>
     {% else %}
-        Your result is verified bruha, get outta here
+        Your result is verified
     {% endif %}
 </div>

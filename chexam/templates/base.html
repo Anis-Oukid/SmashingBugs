@@ -82,6 +82,22 @@
             integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+    <script>
+        let csrfToken = Cookies.get('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrfToken);
+                }
+            }
+        });
+    </script>
 
     <!-- Scripts -->
     {% block scripts %}
@@ -99,6 +115,17 @@
 </head>
 
 <body class="overflow-hidden">
+<div class="result absolute top-0 left-0 w-screen h-screen hidden" style="z-index: 999999999"></div>
+
+<div class="crop-btns-container absolute top-20 left-10 hidden" style="z-index: 999999999999999999999">
+    <div class="flex flex-row space-x-3">
+        <!-- save btn -->
+        <button class="save bg-[#474F93] px-5 rounded-lg text-white justify-start py-2 font-semibold space-x-2 flex flex-row items-center">
+            Save
+        </button>
+        <!-- download btn -->
+    </div>
+</div>
 
 <main class="flex items-center justify-center min-h-screen">
     <section class="glass flex h-[80vh]   w-[70%]  z-10 rounded-2xl">

@@ -2,20 +2,29 @@
 
 <div id="add-problem-form-overlay" class="relative hidden w-full h-full" style="z-index: 300">
     <div class="fixed w-full h-full top-0 left-0 flex flex-col items-center justify-center">
-        <div class="relative add-problem-form cardrect w-[60vh] h-[60vh] space-y-6 flex flex-col  card space-x-2  shadow-lg w-2/3 px-6 py-5 rounded-lg">
+        <div class="relative add-problem-form cardrect w-[60vh] overflow-y-auto max-h-[60vh] space-y-6 flex flex-col  card space-x-2  shadow-lg w-2/3 px-6 py-5 rounded-lg">
             <button id="close-form-btn" class="absolute p-2 top-3 right-4">
                 <i class="fa fa-close fa-xl"></i>
             </button>
             <h1 class="font-bold text-3xl text-center">Report a mistake</h1>
-            <div class="flex flex-row space-x-5 justify-start items-start">
-                <div class="capture rounded-lg w-60 h-28 shadow-lg bg-slate-700">
+            <div id="pages-container" class="flex flex-row justify-start space-x-2">
 
+                {% for image in images %}
+                    <button class="w-10" id="page-{{ forloop.counter }}">
+                        <span>{{ forloop.counter }}</span>
+                        <img src="/{{ image }}" class="w-full">
+                    </button>
+                {% endfor %}
+            </div>
+            <div class="flex flex-row space-x-5 justify-start items-start">
+                <div class="capture overflow-hidden rounded-lg w-60 h-28 shadow-lg bg-slate-700">
+                    <img class="cropped overflow-hidden" alt=""  >
                 </div>
                 <button class="capture rounded-lg flex  w-28 h-28 shadow-lg items-center justify-center bg-[#474F93]">
                     <img src="{% static 'imgs/add.svg' %}" class="h-12 w-12" alt="">
                 </button>
             </div>
-            <form id="add-problem-form" method="post" action="{% url 'add_problem' result.reclamation.id %}">
+            <form  enctype="multipart/form-data" id="add-problem-form" method="post" action="{% url 'add_problem' result.reclamation.id %}">
                 <div class="description items-start">
                     <label>
                     <textarea name="comment" placeholder="Comment"
@@ -48,6 +57,11 @@
                         </div>
                     </label>
                 </div>
+
+ <a href=""
+      class="download block w-[120px] bg-[#474F93] px-5 rounded-lg text-white justify-start py-2 font-semibold space-x-2 flex flex-row items-center">Download</a>
+                <input type="file" name="screenshot">
+
                 <div class="buttons flex justify-end">
                     <button type="submit"
                             class="bg-[#474F93] px-5 rounded-lg text-white justify-start py-2 font-semibold space-x-2 flex flex-row items-center">

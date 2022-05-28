@@ -1,7 +1,12 @@
 <div class="report-modal shadow-lg  w-[90%] rounded-xl py-4 px-12 card">
     <div class="w-full flex justify-between">
         <div class="cropped-img-reclamation overflow-hidden h-20 w-1/2 rounded-md bg-white ring-1">
-            <img src="{{ problem.scan.url }}" class="w-full" alt="" />
+            {% if problem.scan %}
+                <img src="{{ problem.scan.url }}" class="w-full" alt=""/>
+            {% endif %}
+            {% if not problem.scan %}
+                No screenshot
+            {% endif %}
         </div>
 
         <div class="flex justify-center items-center space-x-4">

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block stylesheets %}
+    <style>
+        input[type="date"]::-webkit-inner-spin-button,
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            display: none;
+            -webkit-appearance: none;
+        }
+
+        main {
+            background: linear-gradient(76.17deg, #0089D8 57.21%, #3C4986 72.63%, #423E7D 77.28%, #522066 90.43%);
+        }
+
+        .glass {
+            background: linear-gradient(117.23deg, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0.12) 100%);
+            backdrop-filter: blur(87.6994px);
+        }
+
+        .circle1 {
+
+            background: linear-gradient(180deg, #030452 0%, #5B2877 50%);
+            filter: blur(250px);
+        }
+
+        .circle2 {
+            background: linear-gradient(180deg, #030452 0%, #5B2877 50%);
+            filter: blur(210px);
+        }
+
+        aside {
+            background: linear-gradient(117.23deg, rgba(255, 255, 255, 0.48) 0%, rgba(255, 255, 255, 0.12) 100%);
+            backdrop-filter: blur(87.6994px);
+        }
+
+        .module {
+            background: linear-gradient(135.17deg, rgba(255, 255, 255, 0.66) 6.15%, rgba(255, 255, 255, 0.396) 95.16%);
+            box-shadow: 4.38497px 4.38497px 9.86618px rgba(0, 0, 0, 0.25);
+        }
+
+        .user-profile:hover + aside {
+            display: none;
+        }
+
+        .card {
+
+            background: linear-gradient(117.23deg, rgba(255, 255, 255, 0.60) 0%, rgba(255, 255, 255, 0.20) 100%);
+            backdrop-filter: blur(87.6994px);
+
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="flex flex-row space-x-10 mt-4 justify-center">
+
+        <div class="card px-2 py-4 w-80 justify-center items-center  flex flex-col  rounded-md shadow-lg">
+            <h1 class="font-bold text-2xl">Add Exam</h1>
+
+            <form method="POST"
+                  action=""
+                  class="space-y-4 flex flex-col mt-4 justify-center items-center w-full">
+                {% csrf_token %}
+                <div class="flex bg-white px-4 py-3 rounded w-4/5 s  shadow-lg justify-center items-center">
+                    <label for="email"><i class="fa-solid fa-book w-5 pr-7 pl-5 text-gray-800"></i></label>
+                    <label>
+                        <input type="text"
+                               name="module_name"
+                               required class="block h-12 w-2/3 rounded" style="all:unset"
+                               placeholder="SFSD">
+                    </label>
+                </div>
+
+                <div class="flex bg-white px-4 py-3 rounded w-4/5 shadow-lg items-center ">
+                    <label for="text"><i class="fa-solid fa-address-card   w-5  pr-7 text-gray-800"></i></label>
+                    <label for=""></label>
+                    <select name="teacher" required id="" class="block bg-white   w-full focus:ring-0 rounded">
+                        {% for teacher in teachers %}
+                            <option value="{{ teacher.id }}">{{ teacher.get_full_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="flex bg-white px-4 py-3 rounded w-4/5 s  shadow-lg items-center">
+
+                    <label for="date"><i class="fa-solid fa-calendar w-5 pr-7 text-gray-800"></i></label>
+                    <label>
+                        <input type="date"
+                               name="date_passed"
+                               required class="block h-12 w-full rounded    " style="all:unset"
+                               placeholder="Date">
+                    </label>
+                </div>
+                <button type="submit"
+                        class="flex flex-row hover:bg-green-600 transition-all text-white py-2 px-3 justify-center items-center rounded-xl shadow-lg  bg-gray-800 space-x-2">
+                    <i class="fa-solid fa-check"></i>
+                    <span class="font-semibold">Schedule</span>
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -2,7 +2,7 @@ from email.errors import MultipartInvariantViolationDefect
 import json
 from django.core.files.storage import default_storage
 import glob, sys
-from exams.forms import addPdf,addSolutionForm
+from exams.forms import addPdf, addSolutionForm
 
 import os
 from django.contrib.auth.decorators import login_required
@@ -27,8 +27,14 @@ def is_student(user):
 
 @login_required
 def results_page(request):
+    if request.user.is_staff:
+        return redirect("exams_list")
+
     if is_teacher(request.user):
         return redirect("reclamations_page")
+
+    if request.user.is_staff:
+        return redirect("add_exam")
 
     student = request.user.student
     results = student.result_set.all()
@@ -39,7 +45,15 @@ def results_page(request):
     return render(request, "exams/results_page/index.html", context=context)
 
 
-from django.http import FileResponse
+@login_required
+def exams_list(request):
+    if not request.user.is_staff:
+        return redirect('results_page')
+
+    exams = Exam.objects.all()
+
+    context = {'exams': exams}
+    return render(request, 'exams/list/index.htm', context=context)
 
 
 @login_required
@@ -57,18 +71,20 @@ def result_details(request, pk):
 
     raise Http404
 
+
 import os
 import shutil
+
 def convertPDFToImg2(pdfLoc,destin):
     temp = list(pdfLoc)
     temp[0] = ''
     pdfLoc = "".join(temp)
-        
+
     images = convert_from_path(pdfLoc, 500, poppler_path=r'C:\Program Files\poppler-0.67.0\bin')
     for i in range(len(images)):
         images[i].save('page' + str(i) + '.jpg', 'JPEG')
-        shutil.move('page' +str(i)+'.jpg', destin)
-    
+        shutil.move('page' + str(i) + '.jpg', destin)
+
 
 @login_required
 def add_scans(request):
@@ -111,7 +127,7 @@ def add_scans(request):
                             return redirect("reclamations_page")
     context = {
         'sol_form': sol_form,
-        'scan_form':scan_form
+        'scan_form': scan_form
     }
     return render(request, "exams/add_solution/index.html", context=context)
 
@@ -223,3 +239,25 @@ def add_problem(request, pk):
     except:
         message = 'Invalid reclamation'
     return HttpResponse(json.dumps(message), content_type='application/json')
+
+
+@login_required
+def add_exam(request):
+    if not request.user.is_staff:
+        return redirect("home")
+
+    if request.method == "POST":
+        module_name = request.POST.get("module_name")
+        print(int(request.POST.get("teacher")))
+        teacher = get_object_or_404(Teacher, id=int(request.POST.get("teacher")))
+        date_passed = request.POST.get("date_passed")
+
+        exam = Exam(module_name=module_name, teacher=teacher, date_passed=date_passed)
+        exam.save()
+        return redirect('exams_list')
+
+    context = {
+        'teachers': Teacher.objects.filter(exam=None)
+    }
+
+    return render(request, "exams/add_exam/index.html", context=context)

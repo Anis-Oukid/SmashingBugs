@@ -9,7 +9,7 @@ class Exam(Model):
     teacher = models.OneToOneField(Teacher, on_delete=models.CASCADE)
     date_passed = models.DateTimeField()
     date_created = models.DateTimeField(auto_now_add=True)
-    solution = models.FileField(upload_to='Solutions', default=None)
+    solution = models.FileField(upload_to='Solutions', default=None,blank=True)
 
     def __str__(self):
         return f'{self.module_name}'
@@ -24,7 +24,7 @@ class Result(Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     mark = models.FloatField()
-    scan = models.FileField(upload_to=folder_name, default=None)
+    scan = models.FileField(upload_to=folder_name, default=None,blank=True)
     verified = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
 

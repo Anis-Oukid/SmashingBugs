@@ -9,6 +9,7 @@ from django.contrib.auth import logout
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect
 from .models import Teacher, Student
+from django.shortcuts import get_object_or_404
 
 
 def is_teacher(user):

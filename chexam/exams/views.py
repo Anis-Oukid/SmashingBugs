@@ -82,11 +82,13 @@ import shutil
 
 
 def convertPDFToImg2(pdfLoc, destin):
+def convertPDFToImg2(pdfLoc,destin):
     temp = list(pdfLoc)
     temp[0] = ''
     pdfLoc = "".join(temp)
 
     images = convert_from_path(pdfLoc, 500)
+    images = convert_from_path(pdfLoc, 500, poppler_path=r'C:\Program Files\poppler-0.67.0\bin')
     for i in range(len(images)):
         images[i].save('page' + str(i) + '.jpg', 'JPEG')
         shutil.move('page' +str(i)+'.jpg', destin)
@@ -165,12 +167,14 @@ def add_scans(request):
             test_student=get_object_or_404(Student,matricule='111') 
           
             exam = Exam.objects.get(teacher=teacher)
-                     
+            if Result.objects.filter(student=test_student).exists():
+                Result.objects.filter(student=test_student).delete()  
             result=Result(student=test_student,exam=exam,mark=0.0)
             
             scan_form = addPdf(request.POST, request.FILES,instance=result)   
             if scan_form.is_valid():
                 scan_form.save()
+
                 file_p=Result.objects.get(student=test_student)
                 file_path=rf'{file_p.scan.url}'
                 temp = list(file_path)
@@ -179,9 +183,9 @@ def add_scans(request):
                 file_pat = "".join(temp)
                 convertPDFToImg(file_path)
                 mat=0
-                treatImg(r'page0.jpg',mat)
-                
-                mat='19831243'
+                treatImg(r'page0.jpg',str(mat))
+                if mat==None:
+                    mat='19831243'
                 student=get_object_or_404(Student,matricule=mat)
                 result2=Result(student=student,exam=exam,mark=1)
                 scan_form = addPdf(request.POST, request.FILES,instance=result2)  
